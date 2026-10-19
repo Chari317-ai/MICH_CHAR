@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>蔡承佑 × MICH</title>
+<style>
+  :root {
+    --bg: #ebeae7;
+    --ink: #1f1f1f;
+    --muted: #77736c;
+    --line: #cfccc5;
+    --accent: #c9a35a;
+    --accent-deep: #a8802f;
+    --c-team: #8a8478;
+    --c-mich: #c9a35a;
+    /* liquid glass */
+    --glass: rgba(255, 255, 255, .38);
+    --glass-edge: rgba(255, 255, 255, .75);
+    --glass-shadow: 0 10px 40px rgba(70, 55, 25, .14), inset 0 1px 0 rgba(255, 255, 255, .9), inset 0 -1px 0 rgba(255, 255, 255, .25);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; color: var(--ink); }
+  body {
+    font-family: "Noto Sans TC", -apple-system, "PingFang TC", sans-serif; overflow: hidden;
+    /* warm light pools give the glass something to refract */
+    background:
+      radial-gradient(40vw 40vw at 78% 38%, rgba(201, 163, 90, .30), transparent 70%),
+      radial-gradient(35vw 35vw at 12% 90%, rgba(150, 160, 175, .22), transparent 70%),
+      var(--bg);
+  }
+
+  /* Circuit layer: faint traces with small light pulses travelling along them */
+  .circuit { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  .circuit .trace { fill: none; stroke: rgba(150, 130, 90, .28); stroke-width: 1.2; }
+  .circuit .node { fill: var(--bg); stroke: rgba(150, 130, 90, .45); stroke-width: 1.2; }
+  .circuit .pulse {
+    fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round;
+    stroke-dasharray: 36 1600; stroke-dashoffset: 1636;
+    filter: drop-shadow(0 0 4px rgba(201, 163, 90, .9));
+    animation: run 7s linear infinite;
+  }
+  .circuit .pulse:nth-of-type(2n) { animation-duration: 9s; animation-delay: -3s; }
+  .circuit .pulse:nth-of-type(3n) { animation-duration: 11s; animation-delay: -6s; }
+  @keyframes run { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .circuit .pulse { animation: none; opacity: 0; } }
+
+  /* Snap scroller: one slide per screen, never stops between slides */
+  .deck {
+    position: relative; z-index: 2;
+    height: 100svh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  .deck::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { .deck { scroll-behavior: auto; } }
+  .slide {
+    position: relative;
+    min-height: 100svh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  /* Glass surface, shared by cards, tags and the top bar */
+  .glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+    border: 1px solid var(--glass-edge);
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Fixed chrome */
+  .topbar {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 10;
+    width: min(1200px, calc(100% - 32px));
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 22px; border-radius: 999px;
+  }
+  .brand { font-weight: 700; letter-spacing: .04em; }
+  .brand b { color: var(--accent-deep); }
+  .counter { font-size: .85em; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .08em; }
+  .dots {
+    position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 10;
+    display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none;
+  }
+  .dots a {
+    display: block; width: 9px; height: 9px; border-radius: 50%;
+    border: 1px solid var(--muted); transition: background .2s, transform .2s;
+  }
+  .dots a[aria-current="true"] { background: var(--accent); border-color: var(--accent); transform: scale(1.35); }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: .78em; letter-spacing: .14em; color: #4a463f;
+  }
+  .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+
+  /* Hero: portrait stands on the background, glass panels float beside it */
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; height: 100%; }
+  .hero-text { position: relative; z-index: 3; }
+  .hero h1 { font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1.05; margin: 20px 0 16px; font-weight: 900; }
+  .hero .sub { font-size: clamp(1rem, 1.35vw, 1.2rem); font-weight: 400; line-height: 1.75; max-width: 28em; margin: 0 0 32px; color: #3a3833; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 26px; border-radius: 999px; color: inherit; text-decoration: none; font-size: .95em;
+  }
+  .btn:hover { background: rgba(255, 255, 255, .6); }
+  /* Portrait lives in its own fixed layer (behind the deck, so glass panels still blur it).
+     Scroll position drives its exit; the stage handles the one-time entrance. */
+  .portrait-stage {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    animation: enter 1.1s cubic-bezier(.2, .7, .2, 1) both;
+  }
+  @keyframes enter { from { opacity: 0; transform: translateY(40px); } }
+  .portrait {
+    position: absolute; right: calc(max(48px, (100vw - 1200px) / 2) + 150px); bottom: 0;
+    height: 90svh; width: auto;
+    transform-origin: 50% 100%;
+    will-change: transform, opacity, filter;
+  }
+  @media (prefers-reduced-motion: reduce) { .portrait-stage { animation: none; } }
+
+  .panels {
+    position: absolute; z-index: 2; top: 50%; transform: translateY(-46%);
+    right: max(48px, calc((100vw - 1200px) / 2));
+    width: 230px; display: grid; gap: 14px;
+  }
+  .panel { border-radius: 18px; padding: 16px 18px; }
+  .panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600; font-size: .95em; }
+  .arrow {
+    width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center;
+    font-size: .75em; background: rgba(255, 255, 255, .55); border: 1px solid var(--glass-edge);
+  }
+  .lang-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; font-size: .85em; margin-top: 10px; }
+  .lang-row b { font-weight: 600; }
+  .lang-row span { color: var(--muted); font-size: .9em; }
+  .meter { grid-column: 1 / -1; height: 4px; border-radius: 4px; background: rgba(0, 0, 0, .07); overflow: hidden; }
+  .meter i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent), #e6c98d); }
+  .status { display: flex; align-items: center; gap: 8px; font-size: .8em; color: var(--accent-deep); }
+  .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #e0b84a; box-shadow: 0 0 6px #e0b84a; }
+  .kv { display: flex; justify-content: space-between; font-size: .82em; color: var(--muted); margin-top: 8px; }
+  .kv b { color: var(--ink); font-weight: 600; }
+
+  .gauge {
+    position: absolute; z-index: 2; bottom: 9svh;
+    right: calc(max(48px, (100vw - 1200px) / 2) + 520px);
+    width: 128px; height: 128px; border-radius: 50%;
+    display: grid; place-items: center; text-align: center;
+  }
+  .gauge svg { position: absolute; inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); transform: rotate(-90deg); }
+  .gauge circle { fill: none; stroke-width: 3; }
+  .gauge .bg { stroke: rgba(0, 0, 0, .08); }
+  .gauge .fg { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 289; stroke-dashoffset: 0; }
+  .gauge strong { display: block; font-size: 1.9em; line-height: 1; }
+  .gauge small { display: block; font-size: .72em; color: var(--muted); letter-spacing: .1em; margin-top: 4px; }
+  .gauge small.sub { font-size: .62em; margin-top: 2px; }
+
+  /* Content slides */
+  .slide:not(.hero) .wrap { padding-top: 84px; padding-bottom: 32px; }
+  .slide h2 { font-size: clamp(1.7rem, 3.2vw, 2.6rem); margin: 16px 0 8px; line-height: 1.2; }
+  .lead { color: #4a463f; margin: 0 0 24px; font-size: 1.02em; }
+  .grid { display: grid; gap: 16px; }
+  .grid.c2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.c3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.c4 { grid-template-columns: repeat(4, 1fr); }
+  .card { border-radius: 20px; padding: 22px 24px; margin: 0; }
+  .card h3 { font-size: 1.15em; margin: 6px 0 10px; }
+  .card p { margin: 0 0 8px; font-size: .92em; line-height: 1.65; color: #3d3a34; }
+  .kicker { font-size: .7em; letter-spacing: .16em; color: var(--accent-deep); font-weight: 600; }
+  .card .big { font-size: 2.1em; font-weight: 800; line-height: 1.1; margin: 10px 0 4px; color: var(--ink); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .chips span { padding: 5px 12px; border-radius: 999px; font-size: .85em; font-weight: 600; background: rgba(255, 255, 255, .6); border: 1px solid var(--glass-edge); }
+  .also {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+    margin-top: 16px; padding: 12px 20px; border-radius: 999px; font-size: .88em; color: #4a463f;
+  }
+  .also b { color: var(--ink); }
+  .also span + span::before { content: "·"; margin-right: 18px; color: var(--accent); }
+  .persona .worry { font-style: italic; color: var(--accent-deep); }
+  .fix { padding-left: 12px; border-left: 2px solid var(--accent); }
+  .timeline ul { margin: 0; padding-left: 18px; font-size: .9em; line-height: 1.7; color: #3d3a34; }
+  .timeline li::marker { color: var(--accent); }
+  .slide.closing { text-align: center; }
+  .slide.closing h2 { font-size: clamp(1.9rem, 4vw, 3.2rem); }
+  .slide.closing .lead { margin: 16px 0 28px; }
+
+  /* Cost calculator */
+  .calc { display: grid; grid-template-columns: 300px 1fr; gap: 16px; }
+  .calc-side { display: grid; gap: 14px; align-content: start; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); padding: 3px; border-radius: 999px; background: rgba(0, 0, 0, .05); }
+  .seg button { border: 0; background: transparent; padding: 6px 0; border-radius: 999px; font: inherit; font-size: .88em; cursor: pointer; color: var(--muted); }
+  .seg button[aria-pressed="true"] { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+  .slider { display: grid; gap: 6px; font-size: .85em; color: #4a463f; }
+  .slider b { color: var(--ink); }
+  .slider input { width: 100%; accent-color: var(--accent); }
+  .stat-main small, .stat-row small { color: var(--muted); font-size: .78em; }
+  .stat-main .big { font-size: 1.9em; font-weight: 800; color: var(--accent-deep); line-height: 1.2; }
+  .stat-row { display: grid; gap: 6px; padding-top: 12px; border-top: 1px solid rgba(0, 0, 0, .07); }
+  .stat-row > div { display: flex; justify-content: space-between; align-items: baseline; }
+  .stat-row b { font-size: .9em; white-space: nowrap; }
+  .sw { display: inline-block; width: 10px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+  .sw-team { background: var(--c-team); }
+  .sw-mich { background: var(--c-mich); }
+  .chart { display: flex; flex-direction: column; }
+  .chart figcaption { font-size: .8em; color: var(--muted); margin-bottom: 6px; }
+  .chart-box { position: relative; flex: 1; min-height: 260px; }
+  .chart-box svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .chart .grid-l line { stroke: rgba(0, 0, 0, .07); }
+  .chart .axis text, .chart .end-lbl, .chart .payback-lbl { font-size: 11px; fill: var(--muted); }
+  .chart .end-lbl { font-weight: 600; fill: var(--ink); }
+  .chart .payback-line { stroke: var(--accent); stroke-dasharray: 3 4; }
+  .chart .cross { stroke: rgba(0, 0, 0, .25); }
+  .tip {
+    position: absolute; top: 8px; padding: 8px 12px; border-radius: 12px; font-size: .78em; line-height: 1.6;
+    background: rgba(255, 255, 255, .85); backdrop-filter: blur(10px); border: 1px solid var(--glass-edge);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .1); pointer-events: none; white-space: nowrap;
+  }
+  .fine { margin: 12px 0 0; font-size: .72em; color: var(--muted); }
+
+  @media (max-width: 1000px) {
+    .grid.c4 { grid-template-columns: 1fr 1fr; }
+    .panels { width: 200px; }
+    .gauge { display: none; }
+  }
+  @media (max-width: 760px) {
+    .wrap { padding-left: 16px; padding-right: 16px; }
+    .topbar { padding: 10px 16px; }
+    .dots { right: 8px; }
+    .hero .wrap { grid-template-columns: 1fr; align-items: start; padding-top: 96px; }
+    .portrait { height: 56svh; right: auto; left: 4px; }
+    .panels { top: auto; bottom: 16px; right: 16px; transform: none; width: 170px; gap: 10px; }
+    .panels .panel:nth-child(2) { display: none; }
+    .panel { padding: 12px 14px; }
+    .grid.c2, .grid.c3, .grid.c4, .calc { grid-template-columns: 1fr; }
+    .also { border-radius: 18px; }
+    .chart-box { min-height: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<svg class="circuit" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <g>
+    <path class="trace" d="M0 180 H90 L130 220 V400"/>
+    <path class="trace" d="M0 640 H70 L110 600 V520"/>
+    <path class="trace" d="M1440 120 H1240 L1200 160 V260 L1160 300 H980"/>
+    <path class="trace" d="M1440 780 H1300 L1260 740 V640 L1220 600 H1080"/>
+    <path class="trace" d="M560 900 V800 L600 760 H760 L800 720 V660"/>
+    <path class="trace" d="M720 0 V70 L760 110 H900 L940 150 V200"/>
+  </g>
+  <g>
+    <circle class="node" cx="130" cy="400" r="4"/>
+    <circle class="node" cx="110" cy="520" r="4"/>
+    <circle class="node" cx="980" cy="300" r="4"/>
+    <circle class="node" cx="1080" cy="600" r="4"/>
+    <circle class="node" cx="800" cy="660" r="4"/>
+    <circle class="node" cx="940" cy="200" r="4"/>
+  </g>
+  <g>
+    <path class="pulse" d="M0 180 H90 L130 220 V400"/>
+    <path class="pulse" d="M0 640 H70 L110 600 V520"/>
+    <path class="pulse" d="M1440 120 H1240 L1200 160 V260 L1160 300 H980"/>
+    <path class="pulse" d="M1440 780 H1300 L1260 740 V640 L1220 600 H1080"/>
+    <path class="pulse" d="M560 900 V800 L600 760 H760 L800 720 V660"/>
+    <path class="pulse" d="M720 0 V70 L760 110 H900 L940 150 V200"/>
+  </g>
+</svg>
+
+<header class="topbar glass">
+  <div class="brand">蔡承佑 × <b>MICH</b></div>
+  <div class="counter"><span id="cur">1</span> / <span id="total"></span></div>
+</header>
+<ol class="dots" aria-label="Slides"></ol>
+
+<div class="portrait-stage">
+  <img class="portrait" id="portrait" src="images/Charlie.png" alt="蔡承佑">
+  <div class="gauge glass" id="gauge">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="46"/><circle class="fg" cx="50" cy="50" r="46"/></svg>
+    <div><strong>3</strong><small>市場</small><small class="sub">TW · JP · US</small></div>
+  </div>
+</div>
+
+<main class="deck" id="deck">
+
+  <section class="slide hero" id="s-hero" data-title="開場">
+    <div class="wrap">
+      <div class="hero-text">
+        <span class="tag glass">應徵職位 · 全球行銷專員</span>
+        <h1>我是蔡承佑</h1>
+        <p class="sub">MICH 要在台、日、美三個市場，用三種語言說清楚「AI 留在自家機房」。這三種語言我都會講，三個地方我都住過，而且每天用 AI 做事。</p>
+        <a class="btn glass" href="#s-match">往下看 <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+
+
+    <div class="panels">
+      <div class="panel glass">
+        <div class="panel-head">語言 <span class="arrow" aria-hidden="true">↗</span></div>
+        <div class="lang-row"><b>中文</b><span>母語</span><div class="meter"><i style="width:100%"></i></div></div>
+        <div class="lang-row"><b>日本語</b><span>N2</span><div class="meter"><i style="width:75%"></i></div></div>
+        <div class="lang-row"><b>English</b><span>TOEIC 880</span><div class="meter"><i style="width:88%"></i></div></div>
+      </div>
+      <div class="panel glass">
+        <div class="panel-head">AI 實戰 <span class="arrow" aria-hidden="true">↗</span></div>
+        <div class="status">每天都在用</div>
+        <div class="kv"><span>工具</span><b>Claude · ChatGPT</b></div>
+        <div class="kv"><span>這個網站</span><b>用 Claude 做的</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-match" data-title="核心條件">
+    <div class="wrap">
+      <span class="tag glass">01 · 核心條件</span>
+      <h2>這個職缺最核心的兩件事</h2>
+      <p class="lead">兩項必要條件，我都有實際做過的東西可以拿出來看。</p>
+      <div class="grid c2">
+        <article class="card glass">
+          <div class="kicker">MUST-HAVE · GENERATIVE AI</div>
+          <h3>生成式 AI 實務能力</h3>
+          <div class="big">每天用</div>
+          <p>用 Claude、Claude Code、ChatGPT 做專案：設計 prompt、串接多步驟流程、自己驗證產出。這個網站就是成果之一。</p>
+        </article>
+        <article class="card glass">
+          <div class="kicker">3 MARKETS · 3 LANGUAGES</div>
+          <h3>三個市場、三種語言</h3>
+          <div class="chips"><span>中文 母語</span><span>日文 N2</span><span>TOEIC 880</span><span>TOEFL 82</span></div>
+          <p>台灣、日本、美國都生活和讀書過，也在世田谷區公所做過日英翻譯，懂各市場的溝通習慣。</p>
+        </article>
+      </div>
+      <div class="also glass"><b>其他也符合</b><span>社群經營（世田谷區公所）</span><span>地方活動籌辦與執行</span><span>競品與市場分析（松江 LEXUS）</span></div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-mich" data-title="MICH 的優勢">
+    <div class="wrap">
+      <span class="tag glass">02 · MICH</span>
+      <h2>我對 MICH 的認知：解決什麼問題</h2>
+      <p class="lead">用我自己的話整理四大優勢，也回答「為什麼製造業堅持數據不出廠」。</p>
+      <div class="grid c4">
+        <article class="card glass">
+          <div class="kicker">01 · SECURITY</div>
+          <div class="big">0%</div>
+          <h3>數據不離開機房</h3>
+          <p>製程參數、良率、配方都留在自家機房，也守得住客戶的保密協議。</p>
+        </article>
+        <article class="card glass">
+          <div class="kicker">02 · COST</div>
+          <div class="big">天 → 時</div>
+          <h3>省成本，決策更好</h3>
+          <p>AI 直接從歷史數據學習預測，不必靠數據團隊一筆筆分析。製鞋集團的不良根因排查從數天縮到數小時。</p>
+        </article>
+        <article class="card glass">
+          <div class="kicker">03 · ONE-STOP</div>
+          <div class="big">4–6 週</div>
+          <h3>軟硬體一條龍</h3>
+          <p>NVIDIA、Supermicro 硬體加 LowsiteOS 一起交付，不必自己整合，也不必另組 AI 團隊。</p>
+        </article>
+        <article class="card glass">
+          <div class="kicker">04 · AI ASSISTANT</div>
+          <div class="big">隨時問</div>
+          <h3>全公司的 AI 助手</h3>
+          <p>內建企業知識庫，業務、法務、新人都能用白話直接問數據，新人上手時間大幅縮短。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-calc" data-title="算一筆帳">
+    <div class="wrap">
+      <span class="tag glass">03 · ROI</span>
+      <h2>不必擴編數據團隊，3 年差多少？</h2>
+      <p class="lead">以前靠數據團隊分析歷史數據；有了 MICH，AI 直接從 data lake 學習，只需少數人操作。</p>
+      <div class="calc">
+        <div class="card glass calc-side">
+          <div class="seg" role="group" aria-label="市場">
+            <button type="button" data-market="tw" aria-pressed="true">台灣</button>
+            <button type="button" data-market="jp" aria-pressed="false">日本</button>
+            <button type="button" data-market="us" aria-pressed="false">美國</button>
+          </div>
+          <label class="slider"><span>數據團隊人數 <b id="teamOut">5</b></span><input type="range" id="team" min="2" max="15" value="5"></label>
+          <label class="slider"><span>導入後保留操作人力 <b id="keepOut">1</b></span><input type="range" id="keep" min="0" max="3" value="1"></label>
+          <div class="stat-main"><small>3 年省下</small><div class="big" id="saveAmt">—</div><small id="savePct">—</small></div>
+          <div class="stat-row">
+            <div><small>回本時間</small><b id="payback">—</b></div>
+            <div><small><i class="sw sw-team"></i>數據團隊 3 年</small><b id="teamTotal">—</b></div>
+            <div><small><i class="sw sw-mich"></i>MICH＋操作人力 3 年</small><b id="michTotal">—</b></div>
+          </div>
+        </div>
+        <figure class="card glass chart">
+          <figcaption>累積成本（月）</figcaption>
+          <div class="chart-box" id="chartBox"><svg id="chart" role="img" aria-label="累積成本：數據團隊 vs MICH"></svg><div class="tip" id="tip" hidden></div></div>
+        </figure>
+      </div>
+      <p class="fine">假設：MICH 官網 Spec Advisor M2 試算（3 年 36.9 萬美元）；薪資取自 104 薪資情報、厚生勞動省 job tag、美國 BLS，含雇主附加成本。僅為面試用估算。</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s-personas" data-title="三種人三種話">
+    <div class="wrap">
+      <span class="tag glass">04 · 溝通</span>
+      <h2>同一套產品，對三種人說三種話</h2>
+      <p class="lead">依 MICH 官網內容做的價值主張初稿。</p>
+      <div class="grid c3">
+        <article class="card glass persona">
+          <div class="kicker">CISO · IT DIRECTOR</div>
+          <h3>資安與 IT 決策者</h3>
+          <p class="worry">「數據會外流嗎？要另外組團隊整合嗎？」</p>
+          <p>推論全在自家機房，數據 0% 外移；原廠硬體、軟硬體一起交付，IT 不必自己整合。</p>
+        </article>
+        <article class="card glass persona">
+          <div class="kicker">PLANT MANAGER · COO</div>
+          <h3>廠務與製造主管</h3>
+          <p class="worry">「導入要多久？真的能改善良率嗎？」</p>
+          <p>典型 4–6 週跑出第一個 Agent；製鞋集團不良根因排查從數天縮到數小時。</p>
+        </article>
+        <article class="card glass persona">
+          <div class="kicker">R&amp;D LEAD · ENGINEERS</div>
+          <h3>研發團隊</h3>
+          <p class="worry">「研發機密安全嗎？資深工程師的經驗會不會流失？」</p>
+          <p>模型和數據都在自己機房；跨國藥廠把資深經驗整理成知識庫，新人上手更快。</p>
+        </article>
+      </div>
+      <div class="also glass"><b>LowsiteOS + NVIDIA AI Enterprise + Supermicro</b><span>→ 不用組 AI 團隊，開箱就能用，數據一步都不離開。</span></div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-honest" data-title="補強">
+    <div class="wrap">
+      <span class="tag glass">05 · 補強</span>
+      <h2>我還在補強的地方</h2>
+      <p class="lead">誠實說缺口，也說我怎麼補。</p>
+      <div class="grid c2">
+        <article class="card glass">
+          <div class="kicker">GAP 01</div>
+          <h3>B2B 科技行銷經驗</h3>
+          <p>我是應屆畢業生，還沒正式負責過 B2B 行銷。</p>
+          <p class="fix">先研究 MICH 的產品與客戶，用 AI 工具做出示範作品，進公司能更快上手。</p>
+        </article>
+        <article class="card glass">
+          <div class="kicker">GAP 02</div>
+          <h3>AI 基礎架構的技術深度</h3>
+          <p>GPU 伺服器和機房架構我還在學。</p>
+          <p class="fix">學得快、會發問，能把技術團隊的語言轉成客戶聽得懂的話，這正是行銷要做的事。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-plan" data-title="90 天計劃">
+    <div class="wrap">
+      <span class="tag glass">06 · 計劃</span>
+      <h2>如果加入 MICH，我的前 90 天</h2>
+      <p class="lead">先學、再整理、再產出。</p>
+      <div class="grid c3 timeline">
+        <article class="card glass">
+          <div class="kicker">DAY 1–30</div>
+          <h3>吸收與盤點</h3>
+          <ul><li>訪談業務與技術，整理客戶常見問題</li><li>盤點官網、LinkedIn、銷售素材的三語版本</li><li>熟悉 LowsiteOS、NVIDIA、Supermicro 架構</li></ul>
+        </article>
+        <article class="card glass">
+          <div class="kicker">DAY 31–60</div>
+          <h3>建立訊息與流程</h3>
+          <ul><li>完成三種決策者的價值主張與疑慮回應</li><li>AI 輔助內容流程：中文稿產出英日版並人工驗證</li><li>排出 LinkedIn 與社群內容日曆</li></ul>
+        </article>
+        <article class="card glass">
+          <div class="kicker">DAY 61–90</div>
+          <h3>穩定產出，支援業務</h3>
+          <ul><li>產出三語 one-pager 與案例頁</li><li>支援展會、研討會的邀約與現場執行</li><li>建立第一版行銷報表：流量、lead、內容成效</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide closing" id="s-closing" data-title="結語">
+    <div class="wrap">
+      <h2>讓 MICH 的故事，<br>在三個市場用三種語言被聽懂。</h2>
+      <p class="lead">謝謝您花時間看完，期待在面試中進一步交流。</p>
+      <a class="btn glass" href="mailto:maroon50317@gmail.com">maroon50317@gmail.com</a>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // 成本試算器：數據團隊人事成本 vs MICH 地端 AI（先用美元計算，再換成各市場幣別）
+  (function () {
+    var FX = { tw: 32.5, jp: 158, us: 1 };
+    var PREFIX = { tw: "NT$", jp: "¥", us: "US$" };
+    // 每人每年成本（美元）＝平均年薪 × 雇主附加成本
+    var PERSON = { tw: 1054000 / 32.5 * 1.15, jp: 6119000 / 158 * 1.15, us: 120230 * 1.30 };
+    var HW = 72000, OS_YEAR = 96000, INFRA_YEAR = 3000, MONTHS = 36;
+    var state = { market: "tw", team: 5, keep: 1 };
+    var $ = function (id) { return document.getElementById(id); };
+    var svg = $("chart"), box = $("chartBox"), tip = $("tip");
+    var NS = "http://www.w3.org/2000/svg";
+    var fmt = new Intl.NumberFormat("zh-Hant-TW", { notation: "compact", maximumFractionDigits: 1 });
+
+    function money(usd) { return PREFIX[state.market] + " " + fmt.format(usd * FX[state.market]); }
+    function teamCost(m) { return state.team * PERSON[state.market] * m / 12; }
+    function michCost(m) {
+      var payments = Math.min(3, Math.floor(m / 12) + 1);
+      return HW + OS_YEAR * payments + INFRA_YEAR * m / 12 + state.keep * PERSON[state.market] * m / 12;
+    }
+    function el(name, attrs, parent) {
+      var e = document.createElementNS(NS, name);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function render() {
+      var team = [], mich = [], payback = null, m;
+      for (m = 0; m <= MONTHS; m++) { team.push(teamCost(m)); mich.push(michCost(m)); }
+      // 回本點：之後團隊累積成本都高於 MICH 的第一個月
+      for (m = MONTHS; m >= 0; m--) { if (team[m] < mich[m]) { payback = m < MONTHS ? m + 1 : null; break; } }
+      if (m < 0) payback = 0;
+
+      var save = team[MONTHS] - mich[MONTHS], pct = Math.round(Math.abs(save) / team[MONTHS] * 100);
+      $("saveAmt").textContent = (save < 0 ? "−" : "") + money(Math.abs(save));
+      $("savePct").textContent = "比數據團隊" + (save >= 0 ? "省 " : "多 ") + pct + "%";
+      $("payback").textContent = payback === null ? "3 年內未回本" : payback + " 個月";
+      $("teamTotal").textContent = money(team[MONTHS]);
+      $("michTotal").textContent = money(mich[MONTHS]);
+
+      var W = box.clientWidth, H = box.clientHeight, pad = { l: 62, r: W < 500 ? 12 : 64, t: 12, b: 26 };
+      var iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+      var max = Math.max(team[MONTHS], mich[MONTHS]) * 1.08;
+      var x = function (mm) { return pad.l + mm / MONTHS * iw; };
+      var y = function (v) { return pad.t + ih - v / max * ih; };
+      svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+      svg.innerHTML = "";
+
+      var grid = el("g", { "class": "grid-l" }, svg), axis = el("g", { "class": "axis" }, svg);
+      for (var i = 0; i <= 4; i++) {
+        var v = max / 4 * i;
+        el("line", { x1: pad.l, x2: pad.l + iw, y1: y(v), y2: y(v) }, grid);
+        el("text", { x: pad.l - 8, y: y(v) + 4, "text-anchor": "end" }, axis).textContent = money(v);
+      }
+      [0, 12, 24, 36].forEach(function (mm) {
+        el("text", { x: x(mm), y: H - 6, "text-anchor": "middle" }, axis).textContent = mm === 0 ? "0" : mm / 12 + " 年";
+      });
+
+      if (payback !== null && payback > 0) {
+        el("line", { "class": "payback-line", x1: x(payback), x2: x(payback), y1: pad.t, y2: pad.t + ih }, svg);
+        el("text", { "class": "payback-lbl", x: x(payback) + 6, y: pad.t + 12 }, svg).textContent = "回本 · " + payback + " 個月";
+      }
+
+      function path(data, color) {
+        var d = data.map(function (val, k) { return (k ? "L" : "M") + x(k).toFixed(1) + "," + y(val).toFixed(1); }).join("");
+        el("path", { d: d, fill: "none", stroke: color, "stroke-width": 2.5, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+      }
+      path(team, "var(--c-team)");
+      path(mich, "var(--c-mich)");
+
+      if (W >= 500) {
+        var ty = y(team[MONTHS]), my = y(mich[MONTHS]);
+        if (Math.abs(ty - my) < 16) { if (ty < my) { ty -= 8; my += 8; } else { ty += 8; my -= 8; } }
+        el("text", { "class": "end-lbl", x: x(MONTHS) + 8, y: ty + 4 }, svg).textContent = "數據團隊";
+        el("text", { "class": "end-lbl", x: x(MONTHS) + 8, y: my + 4 }, svg).textContent = "MICH";
+      }
+
+      // 滑鼠十字線＋提示框
+      var cross = el("line", { "class": "cross", y1: pad.t, y2: pad.t + ih, visibility: "hidden" }, svg);
+      var dotT = el("circle", { r: 4, fill: "var(--c-team)", stroke: "#fff", "stroke-width": 2, visibility: "hidden" }, svg);
+      var dotM = el("circle", { r: 4, fill: "var(--c-mich)", stroke: "#fff", "stroke-width": 2, visibility: "hidden" }, svg);
+      var hit = el("rect", { x: pad.l, y: pad.t, width: iw, height: ih, fill: "transparent" }, svg);
+
+      function move(ev) {
+        var r = svg.getBoundingClientRect();
+        var mm = Math.round(Math.max(0, Math.min(MONTHS, (ev.clientX - r.left - pad.l) / iw * MONTHS)));
+        var cx = x(mm);
+        cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
+        dotT.setAttribute("cx", cx); dotT.setAttribute("cy", y(team[mm]));
+        dotM.setAttribute("cx", cx); dotM.setAttribute("cy", y(mich[mm]));
+        [cross, dotT, dotM].forEach(function (e) { e.setAttribute("visibility", "visible"); });
+        var gap = team[mm] - mich[mm];
+        tip.innerHTML = "<b>第 " + mm + " 個月</b>" +
+          '<div><i class="sw sw-team"></i>數據團隊　' + money(team[mm]) + "</div>" +
+          '<div><i class="sw sw-mich"></i>MICH＋操作人力　' + money(mich[mm]) + "</div>" +
+          "<div>差距　" + (gap < 0 ? "−" : "") + money(Math.abs(gap)) + "</div>";
+        tip.hidden = false;
+        var left = cx + 14;
+        if (left + tip.offsetWidth > W) left = cx - tip.offsetWidth - 14;
+        tip.style.left = Math.max(0, left) + "px";
+      }
+      function leave() {
+        [cross, dotT, dotM].forEach(function (e) { e.setAttribute("visibility", "hidden"); });
+        tip.hidden = true;
+      }
+      hit.addEventListener("pointermove", move);
+      hit.addEventListener("pointerdown", move);
+      hit.addEventListener("pointerleave", leave);
+    }
+
+    document.querySelectorAll(".seg button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.market = b.dataset.market;
+        document.querySelectorAll(".seg button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+        render();
+      });
+    });
+    ["team", "keep"].forEach(function (id) {
+      $(id).addEventListener("input", function () {
+        state[id] = Number(this.value);
+        if (state.keep >= state.team) { state.keep = state.team - 1; $("keep").value = state.keep; }
+        $("teamOut").textContent = state.team;
+        $("keepOut").textContent = state.keep;
+        render();
+      });
+    });
+    window.addEventListener("resize", render);
+    render();
+  })();
+</script>
+<script>
+  (function () {
+    var deck = document.getElementById("deck");
+    var slides = Array.prototype.slice.call(deck.querySelectorAll(".slide"));
+    var dots = document.querySelector(".dots");
+    var cur = document.getElementById("cur");
+    document.getElementById("total").textContent = slides.length;
+    var index = 0;
+
+    slides.forEach(function (s, i) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.href = "#" + s.id;
+      a.title = s.dataset.title;
+      a.setAttribute("aria-label", s.dataset.title);
+      li.appendChild(a);
+      dots.appendChild(li);
+    });
+    var dotLinks = dots.querySelectorAll("a");
+
+    function go(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      slides[i].scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Track which slide is on screen
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        index = slides.indexOf(e.target);
+        cur.textContent = index + 1;
+        dotLinks.forEach(function (d, j) { d.setAttribute("aria-current", String(j === index)); });
+        history.replaceState(null, "", "#" + e.target.id);
+      });
+    }, { root: deck, rootMargin: "-50% 0px -50% 0px" }); // the slide crossing the middle of the screen
+    slides.forEach(function (s) { io.observe(s); });
+
+    // In-page links scroll inside the deck
+    document.addEventListener("click", function (ev) {
+      var a = ev.target.closest('a[href^="#"]');
+      if (!a) return;
+      var t = document.getElementById(a.getAttribute("href").slice(1));
+      if (!t) return;
+      ev.preventDefault();
+      go(slides.indexOf(t));
+    });
+
+    // Presentation keys: one press = one slide
+    window.addEventListener("keydown", function (ev) {
+      var next = ["ArrowDown", "PageDown", " ", "ArrowRight"];
+      var prev = ["ArrowUp", "PageUp", "ArrowLeft"];
+      if (next.indexOf(ev.key) >= 0) { ev.preventDefault(); go(index + (ev.shiftKey && ev.key === " " ? -1 : 1)); }
+      else if (prev.indexOf(ev.key) >= 0) { ev.preventDefault(); go(index - 1); }
+      else if (ev.key === "Home") { ev.preventDefault(); go(0); }
+      else if (ev.key === "End") { ev.preventDefault(); go(slides.length - 1); }
+    });
+
+    // Portrait exit: as the hero scrolls away the portrait steps back (shrinks, blurs, fades)
+    var portrait = document.getElementById("portrait");
+    var gauge = document.getElementById("gauge");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var ticking = false;
+    function updatePortrait() {
+      ticking = false;
+      var p = Math.min(1, Math.max(0, deck.scrollTop / deck.clientHeight));
+      var e = 1 - Math.pow(1 - p, 2);
+      portrait.style.opacity = String(Math.max(0, 1 - p * 1.6));
+      portrait.style.visibility = p >= 0.99 ? "hidden" : "visible";
+      gauge.style.opacity = String(Math.max(0, 1 - p * 3));
+      gauge.style.visibility = p >= 0.34 ? "hidden" : "visible";
+      if (reduce) return;
+      portrait.style.transform = "translateY(" + (-e * 6) + "svh) scale(" + (1 - e * 0.14) + ")";
+      portrait.style.filter = "blur(" + (e * 8).toFixed(1) + "px)";
+      gauge.style.transform = "translateY(" + (-e * 4) + "svh) scale(" + (1 - e * 0.2) + ")";
+    }
+    deck.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(updatePortrait); }
+    }, { passive: true });
+    window.addEventListener("resize", updatePortrait);
+
+    // Open at the slide in the URL, if any
+    var start = location.hash && document.getElementById(location.hash.slice(1));
+    if (start) deck.scrollTo({ top: start.offsetTop, behavior: "instant" });
+    updatePortrait();
+    deck.focus();
+  })();
+</script>
+</body>
+</html>
