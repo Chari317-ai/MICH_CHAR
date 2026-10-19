@@ -22,6 +22,8 @@
     --dark-muted: #9fb0ad;
     --dark-line: #26393a;
     --glow: #49d29b;
+    --c-team: #c2410c;
+    --c-mich: #0f7a5a;
     --serif: "Noto Serif TC", "Songti TC", serif;
     --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
   }
@@ -33,11 +35,13 @@
     :root:not([data-theme="light"]) {
       --paper: #0f1617; --sheet: #162122; --ink: #e6eeec; --muted: #9aaba8;
       --line: #2a3a3b; --accent: #4fd1a0; --accent-soft: #173029;
+      --c-team: #d9692c; --c-mich: #21a374;
     }
   }
   :root[data-theme="dark"] {
     --paper: #0f1617; --sheet: #162122; --ink: #e6eeec; --muted: #9aaba8;
     --line: #2a3a3b; --accent: #4fd1a0; --accent-soft: #173029;
+      --c-team: #d9692c; --c-mich: #21a374;
   }
 
   /* 語言切換：只顯示目前語言的文字 */
@@ -178,6 +182,55 @@
   .closing .mail { display: inline-block; margin-top: 32px; background: var(--glow); color: var(--dark); font-weight: 700; padding: 14px 28px; border-radius: 4px; text-decoration: none; }
   .closing .mail:hover { filter: brightness(1.08); }
   footer { background: var(--dark); color: var(--dark-muted); font-size: .8em; padding: 20px 0 32px; border-top: 1px solid var(--dark-line); }
+
+  /* 成本試算器 */
+  .calc { margin-top: 32px; background: var(--sheet); border: 1px solid var(--line); border-top: 4px solid var(--accent); padding: 32px; }
+  .calc-head .k { font-size: .78em; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
+  .calc-head h3 { font-family: var(--serif); font-size: 1.35em; line-height: 1.4; margin: 6px 0 10px; }
+  .calc-head p { color: var(--muted); max-width: 52em; }
+  .calc-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px 36px; margin: 24px 0; }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .seg button { background: transparent; color: var(--muted); border: 0; padding: 8px 18px; font: inherit; font-size: .9em; cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--sheet); font-weight: 700; }
+  .slider { display: flex; flex-direction: column; gap: 4px; font-size: .88em; color: var(--muted); min-width: 200px; }
+  .slider b { color: var(--ink); font-size: 1.15em; }
+  .slider input { accent-color: var(--accent); width: 100%; }
+  .calc-stats { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .calc-stats > div { background: var(--sheet); padding: 18px 20px; }
+  .calc-stats .lbl { font-size: .8em; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .calc-stats .big { font-family: var(--serif); font-weight: 900; font-size: 2.2em; line-height: 1.2; color: var(--ink); margin-top: 4px; }
+  .calc-stats .mid { font-weight: 700; font-size: 1.25em; margin-top: 6px; }
+  .calc-stats .sm { font-size: .85em; color: var(--muted); }
+  .sw { display: inline-block; width: 12px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+  .sw-team { background: var(--c-team); }
+  .sw-mich { background: var(--c-mich); }
+  .chart { margin: 24px 0 0; }
+  .chart figcaption { font-size: .8em; color: var(--muted); margin-bottom: 6px; }
+  .chart-box { position: relative; }
+  .chart svg { display: block; width: 100%; height: 300px; overflow: visible; }
+  .chart .grid line { stroke: var(--line); stroke-width: 1; }
+  .chart .axis text { fill: var(--muted); font-size: 11px; font-family: var(--sans); }
+  .chart .end-lbl { font-size: 12px; font-weight: 700; fill: var(--ink); font-family: var(--sans); }
+  .chart .payback-line { stroke: var(--muted); stroke-dasharray: 3 4; stroke-width: 1; }
+  .chart .payback-lbl { fill: var(--muted); font-size: 11px; font-family: var(--sans); }
+  .chart .cross { stroke: var(--muted); stroke-width: 1; }
+  .tip { position: absolute; top: 0; pointer-events: none; background: var(--dark); color: var(--dark-ink); font-size: .8em; line-height: 1.6; padding: 8px 12px; border-radius: 4px; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+  .tip b { font-weight: 700; }
+  .tip .row { display: flex; align-items: center; gap: 6px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 10px; font-size: .82em; color: var(--muted); }
+  .legend > span { display: inline-flex; align-items: center; gap: 8px; }
+  .assume { margin-top: 20px; font-size: .82em; color: var(--muted); }
+  .assume summary { cursor: pointer; font-weight: 700; color: var(--ink); }
+  .assume ul { margin-top: 10px; display: grid; gap: 6px; }
+  .assume b { color: var(--ink); }
+  @media (max-width: 760px) {
+    .calc { padding: 20px 16px; }
+    .calc-stats { grid-template-columns: 1fr 1fr; }
+    .calc-stats .hero-stat { grid-column: 1 / -1; }
+    .slider { min-width: 0; width: 100%; }
+    .chart svg { height: 240px; }
+  }
 
   @media (max-width: 1000px) {
     .nav { display: none; }
@@ -340,6 +393,73 @@
           </div>
         </div>
 
+<div class="calc" id="calc">
+          <div class="calc-head">
+            <div class="k">ROI MODEL</div>
+            <h3><span data-l="zh">算一筆帳：不必擴編數據團隊，3 年差多少？</span><span data-l="en">Do the math: skip growing a data team. What's the 3-year difference?</span><span data-l="ja">試算：データチームを増員しない場合、3年間でどれだけ違うか</span></h3>
+            <p><span data-l="zh">以前要靠數據團隊一筆一筆分析歷史數據；有了 MICH，AI 直接從 data lake 學習、做預測，只需少數人操作。選擇市場、調整人數，看看累積成本怎麼變化。</span><span data-l="en">Forecasting used to need a data team working through historical records. With MICH, AI learns straight from the data lake, and a few people run it. Pick a market and adjust headcount to see how cumulative cost compares.</span><span data-l="ja">これまではデータチームが過去データを一件ずつ分析していました。MICH なら AI が data lake から直接学習・予測し、少人数で運用できます。市場と人数を選んで、累積コストの違いをご覧ください。</span></p>
+          </div>
+
+          <div class="calc-controls">
+            <div class="seg" role="group" aria-label="Market">
+              <button type="button" data-market="tw" aria-pressed="true"><span data-l="zh">台灣</span><span data-l="en">Taiwan</span><span data-l="ja">台湾</span></button>
+              <button type="button" data-market="jp" aria-pressed="false"><span data-l="zh">日本</span><span data-l="en">Japan</span><span data-l="ja">日本</span></button>
+              <button type="button" data-market="us" aria-pressed="false"><span data-l="zh">美國</span><span data-l="en">US</span><span data-l="ja">アメリカ</span></button>
+            </div>
+            <label class="slider">
+              <span><span data-l="zh">數據團隊人數</span><span data-l="en">Data team size</span><span data-l="ja">データチームの人数</span> <b id="teamOut">5</b></span>
+              <input type="range" id="team" min="2" max="15" value="5">
+            </label>
+            <label class="slider">
+              <span><span data-l="zh">導入 MICH 後保留操作人力</span><span data-l="en">Staff kept to run MICH</span><span data-l="ja">MICH 導入後の運用人数</span> <b id="keepOut">1</b></span>
+              <input type="range" id="keep" min="0" max="3" value="1">
+            </label>
+          </div>
+
+          <div class="calc-stats">
+            <div class="hero-stat">
+              <div class="lbl"><span data-l="zh">3 年省下</span><span data-l="en">3-year savings</span><span data-l="ja">3年間の削減額</span></div>
+              <div class="big" id="saveAmt">—</div>
+              <div class="sm" id="savePct">—</div>
+            </div>
+            <div>
+              <div class="lbl"><span data-l="zh">回本時間</span><span data-l="en">Payback</span><span data-l="ja">回収期間</span></div>
+              <div class="mid" id="payback">—</div>
+            </div>
+            <div>
+              <div class="lbl"><span class="sw sw-team"></span><span data-l="zh">數據團隊 3 年</span><span data-l="en">Data team, 3 yrs</span><span data-l="ja">データチーム 3年</span></div>
+              <div class="mid" id="teamTotal">—</div>
+            </div>
+            <div>
+              <div class="lbl"><span class="sw sw-mich"></span><span data-l="zh">MICH＋操作人力 3 年</span><span data-l="en">MICH + staff, 3 yrs</span><span data-l="ja">MICH＋運用人員 3年</span></div>
+              <div class="mid" id="michTotal">—</div>
+            </div>
+          </div>
+
+          <figure class="chart">
+            <figcaption><span data-l="zh">累積成本（月）</span><span data-l="en">Cumulative cost by month</span><span data-l="ja">累積コスト（月別）</span></figcaption>
+            <div class="chart-box" id="chartBox">
+              <svg id="chart" role="img" aria-label="Cumulative cost: data team vs MICH"></svg>
+              <div class="tip" id="tip" hidden></div>
+            </div>
+            <div class="legend">
+              <span><i class="sw sw-team"></i><span data-l="zh">數據團隊人事成本</span><span data-l="en">Data team payroll</span><span data-l="ja">データチームの人件費</span></span>
+              <span><i class="sw sw-mich"></i><span data-l="zh">MICH（硬體＋LowsiteOS＋基建）＋操作人力</span><span data-l="en">MICH (hardware + LowsiteOS + infra) + staff</span><span data-l="ja">MICH（ハード＋LowsiteOS＋インフラ）＋運用人員</span></span>
+            </div>
+          </figure>
+
+          <details class="assume">
+            <summary><span data-l="zh">計算假設與資料來源</span><span data-l="en">Assumptions &amp; sources</span><span data-l="ja">前提条件と出典</span></summary>
+            <ul>
+              <li><span data-l="zh"><b>MICH 成本</b>：MICH 官網 Spec Advisor 的 M2 機型試算範例。硬體 7.2 萬美元（第 0 月一次付清）、LowsiteOS 每年 9.6 萬美元（年初付）、電力機房等每年 0.3 萬美元，3 年合計 36.9 萬美元。三個市場用同一價格。</span><span data-l="en"><b>MICH cost</b>: the M2 example from MICH's Spec Advisor. Hardware $72K (month 0), LowsiteOS $96K/yr (paid yearly), infrastructure $3K/yr: $369K over 3 years. Same price used for all markets.</span><span data-l="ja"><b>MICH のコスト</b>：MICH 公式サイト Spec Advisor の M2 試算例。ハード 7.2万ドル（初月に一括）、LowsiteOS 年 9.6万ドル（年初払い）、電力・設備 年 0.3万ドル、3年合計 36.9万ドル。3市場とも同一価格で計算。</span></li>
+              <li><span data-l="zh"><b>台灣薪資</b>：104 薪資情報（2026/10）。資料科學家 5~10 年 125.4 萬、資料工程師 97.9 萬、數據分析師 3~5 年 89.1 萬，以 2：1：2 組成平均每人 105.4 萬台幣。雇主附加成本（勞健保、勞退）估 +15%。</span><span data-l="en"><b>Taiwan salaries</b>: 104 Salary Guide (Oct 2026). Data scientist (5–10 yrs) NT$1.254M, data engineer NT$979K, data analyst (3–5 yrs) NT$891K; a 2:1:2 mix averages NT$1.054M per person. Employer overhead +15%.</span><span data-l="ja"><b>台湾の給与</b>：104 薪資情報（2026年10月）。データサイエンティスト（5〜10年）125.4万台湾ドル、データエンジニア 97.9万、データアナリスト（3〜5年）89.1万。2：1：2 の構成で1人平均 105.4万台湾ドル。事業主負担 +15% と仮定。</span></li>
+              <li><span data-l="zh"><b>日本薪資</b>：厚生勞動省 job tag，データサイエンティスト平均年收 611.9 萬日圓。雇主社會保險負擔估 +15%。</span><span data-l="en"><b>Japan salaries</b>: MHLW job tag, data scientist average ¥6.119M. Employer social insurance +15%.</span><span data-l="ja"><b>日本の給与</b>：厚生労働省 job tag、データサイエンティスト平均年収 611.9万円。社会保険の事業主負担 +15% と仮定。</span></li>
+              <li><span data-l="zh"><b>美國薪資</b>：美國勞工統計局（BLS），Data Scientist 2025 年薪中位數 120,230 美元。福利與稅等雇主成本估 +30%。</span><span data-l="en"><b>US salaries</b>: BLS, data scientist median pay $120,230 (May 2025). Benefits and payroll tax +30%.</span><span data-l="ja"><b>アメリカの給与</b>：米国労働統計局（BLS）、Data Scientist 年収中央値 120,230ドル（2025年5月）。福利厚生・税などの事業主負担 +30% と仮定。</span></li>
+              <li><span data-l="zh"><b>匯率</b>（2026/10/17）：1 美元 ≈ 32.5 台幣 ≈ 158 日圓。未計入加薪、招募與離職成本，也未計入 AI 帶來的營收效益。僅為面試用估算，實際報價依 MICH 正式提案為準。</span><span data-l="en"><b>FX</b> (Oct 17, 2026): US$1 ≈ NT$32.5 ≈ ¥158. Excludes raises, hiring and turnover costs, and any revenue upside from AI. An interview estimate only; actual pricing follows MICH's formal quote.</span><span data-l="ja"><b>為替</b>（2026年10月17日）：1ドル ≈ 32.5台湾ドル ≈ 158円。昇給・採用・離職コストや AI による収益効果は含みません。面接用の試算であり、実際の価格は MICH の正式提案に準じます。</span></li>
+            </ul>
+          </details>
+        </div>
+
 <h3 class="sub"><span data-l="zh">同一套產品，對三種人說三種話</span><span data-l="en">One product, three conversations</span><span data-l="ja">同じ製品を、3種類の相手にどう伝えるか</span></h3>
         <p class="sub-note"><span data-l="zh">職缺要求針對不同決策者發展價值主張。這是我根據 MICH 官網內容做的初稿。</span><span data-l="en">The role calls for a value proposition per decision-maker. Here's my first draft, based on MICH's public site.</span><span data-l="ja">求人では意思決定者ごとの価値提案が求められています。MICH の公式サイトをもとに作った私の草案です。</span></p>
         <div class="personas">
@@ -456,6 +576,7 @@
       root.setAttribute("lang", htmlLang[lang]);
       buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.set === lang)); });
       try { localStorage.setItem("lang", lang); } catch (e) {}
+      document.dispatchEvent(new Event("langchange"));
     }
 
     buttons.forEach(function (b) {
@@ -466,6 +587,154 @@
     var saved = null;
     try { saved = localStorage.getItem("lang"); } catch (e) {}
     setLang(fromUrl || saved || "zh");
+  })();
+</script>
+<script>
+  // 成本試算器：數據團隊人事成本 vs MICH 地端 AI（單位先用美元計算，再換成各市場幣別）
+  (function () {
+    var FX = { tw: 32.5, jp: 158, us: 1 };
+    var PREFIX = { tw: "NT$", jp: "¥", us: "US$" };
+    // 每人每年成本（美元）＝平均年薪 × 雇主附加成本
+    var PERSON = { tw: 1054000 / 32.5 * 1.15, jp: 6119000 / 158 * 1.15, us: 120230 * 1.30 };
+    var HW = 72000, OS_YEAR = 96000, INFRA_YEAR = 3000, MONTHS = 36;
+    var LOCALE = { zh: "zh-Hant-TW", ja: "ja-JP", en: "en-US" };
+    var T = {
+      zh: { save: "比數據團隊省 {p}%", more: "比數據團隊多 {p}%", payback: "{m} 個月", none: "3 年內未回本", month: "第 {m} 個月", team: "數據團隊", mich: "MICH＋操作人力", diff: "差距", pb: "回本點", yr: "{y} 年" },
+      en: { save: "{p}% less than a data team", more: "{p}% more than a data team", payback: "{m} months", none: "Not within 3 years", month: "Month {m}", team: "Data team", mich: "MICH + staff", diff: "Gap", pb: "Payback", yr: "Yr {y}" },
+      ja: { save: "データチームより {p}% 削減", more: "データチームより {p}% 増加", payback: "{m} か月", none: "3年以内に回収できず", month: "{m} か月目", team: "データチーム", mich: "MICH＋運用人員", diff: "差額", pb: "回収点", yr: "{y}年" }
+    };
+    var state = { market: "tw", team: 5, keep: 1 };
+    var $ = function (id) { return document.getElementById(id); };
+    var svg = $("chart"), box = $("chartBox"), tip = $("tip");
+    var NS = "http://www.w3.org/2000/svg";
+
+    function lang() { return document.documentElement.getAttribute("data-lang") || "zh"; }
+    function t(key, vars) {
+      var s = T[lang()][key];
+      for (var k in vars) s = s.replace("{" + k + "}", vars[k]);
+      return s;
+    }
+    function money(usd) {
+      var n = new Intl.NumberFormat(LOCALE[lang()], { notation: "compact", maximumFractionDigits: 1 });
+      return PREFIX[state.market] + " " + n.format(usd * FX[state.market]);
+    }
+    function teamCost(m) { return state.team * PERSON[state.market] * m / 12; }
+    function michCost(m) {
+      var payments = Math.min(3, Math.floor(m / 12) + 1);
+      return HW + OS_YEAR * payments + INFRA_YEAR * m / 12 + state.keep * PERSON[state.market] * m / 12;
+    }
+    function el(name, attrs, parent) {
+      var e = document.createElementNS(NS, name);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function render() {
+      var team = [], mich = [], payback = null;
+      for (var m = 0; m <= MONTHS; m++) { team.push(teamCost(m)); mich.push(michCost(m)); }
+      // 回本點：之後團隊累積成本都高於 MICH 的第一個月
+      for (m = MONTHS; m >= 0; m--) { if (team[m] < mich[m]) { payback = m < MONTHS ? m + 1 : null; break; } }
+      if (m < 0) payback = 0;
+
+      var save = team[MONTHS] - mich[MONTHS], pct = Math.round(Math.abs(save) / team[MONTHS] * 100);
+      $("saveAmt").textContent = (save < 0 ? "−" : "") + money(Math.abs(save));
+      $("savePct").textContent = t(save >= 0 ? "save" : "more", { p: pct });
+      $("payback").textContent = payback === null ? t("none") : t("payback", { m: payback });
+      $("teamTotal").textContent = money(team[MONTHS]);
+      $("michTotal").textContent = money(mich[MONTHS]);
+
+      // 圖表
+      var W = box.clientWidth, H = svg.clientHeight, pad = { l: 64, r: 96, t: 12, b: 28 };
+      if (W < 500) pad.r = 12;
+      var iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+      var max = Math.max(team[MONTHS], mich[MONTHS]) * 1.08;
+      var x = function (m) { return pad.l + m / MONTHS * iw; };
+      var y = function (v) { return pad.t + ih - v / max * ih; };
+      svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+      svg.innerHTML = "";
+
+      var grid = el("g", { "class": "grid" }, svg), axis = el("g", { "class": "axis" }, svg);
+      for (var i = 0; i <= 4; i++) {
+        var v = max / 4 * i;
+        el("line", { x1: pad.l, x2: pad.l + iw, y1: y(v), y2: y(v) }, grid);
+        el("text", { x: pad.l - 8, y: y(v) + 4, "text-anchor": "end" }, axis).textContent = money(v);
+      }
+      [0, 12, 24, 36].forEach(function (mm) {
+        el("text", { x: x(mm), y: H - 8, "text-anchor": "middle" }, axis).textContent = mm === 0 ? "0" : t("yr", { y: mm / 12 });
+      });
+
+      if (payback !== null && payback > 0) {
+        el("line", { "class": "payback-line", x1: x(payback), x2: x(payback), y1: pad.t, y2: pad.t + ih }, svg);
+        el("text", { "class": "payback-lbl", x: x(payback) + 6, y: pad.t + 12 }, svg).textContent = t("pb") + " · " + t("payback", { m: payback });
+      }
+
+      function path(data, color) {
+        var d = data.map(function (v, k) { return (k ? "L" : "M") + x(k).toFixed(1) + "," + y(v).toFixed(1); }).join("");
+        el("path", { d: d, fill: "none", stroke: color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+      }
+      path(team, "var(--c-team)");
+      path(mich, "var(--c-mich)");
+
+      // 線尾直接標示（窄螢幕改看下方圖例）
+      if (W >= 500) {
+        var ty = y(team[MONTHS]), my = y(mich[MONTHS]);
+        if (Math.abs(ty - my) < 16) { if (ty < my) { ty -= 8; my += 8; } else { ty += 8; my -= 8; } }
+        el("text", { "class": "end-lbl", x: x(MONTHS) + 8, y: ty + 4 }, svg).textContent = t("team");
+        el("text", { "class": "end-lbl", x: x(MONTHS) + 8, y: my + 4 }, svg).textContent = "MICH";
+      }
+
+      // 滑鼠十字線＋提示框
+      var cross = el("line", { "class": "cross", y1: pad.t, y2: pad.t + ih, visibility: "hidden" }, svg);
+      var dotT = el("circle", { r: 4, fill: "var(--c-team)", stroke: "var(--sheet)", "stroke-width": 2, visibility: "hidden" }, svg);
+      var dotM = el("circle", { r: 4, fill: "var(--c-mich)", stroke: "var(--sheet)", "stroke-width": 2, visibility: "hidden" }, svg);
+      var hit = el("rect", { x: pad.l, y: pad.t, width: iw, height: ih, fill: "transparent" }, svg);
+
+      function move(ev) {
+        var r = svg.getBoundingClientRect();
+        var mm = Math.round(Math.max(0, Math.min(MONTHS, (ev.clientX - r.left - pad.l) / iw * MONTHS)));
+        var cx = x(mm);
+        cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
+        dotT.setAttribute("cx", cx); dotT.setAttribute("cy", y(team[mm]));
+        dotM.setAttribute("cx", cx); dotM.setAttribute("cy", y(mich[mm]));
+        [cross, dotT, dotM].forEach(function (e) { e.setAttribute("visibility", "visible"); });
+        tip.innerHTML = "<b>" + t("month", { m: mm }) + "</b>" +
+          '<div class="row"><i class="sw sw-team"></i>' + t("team") + "　" + money(team[mm]) + "</div>" +
+          '<div class="row"><i class="sw sw-mich"></i>' + t("mich") + "　" + money(mich[mm]) + "</div>" +
+          "<div>" + t("diff") + "　" + (team[mm] - mich[mm] < 0 ? "−" : "") + money(Math.abs(team[mm] - mich[mm])) + "</div>";
+        tip.hidden = false;
+        var left = cx + 14;
+        if (left + tip.offsetWidth > W) left = cx - tip.offsetWidth - 14;
+        tip.style.left = Math.max(0, left) + "px";
+      }
+      function leave() {
+        [cross, dotT, dotM].forEach(function (e) { e.setAttribute("visibility", "hidden"); });
+        tip.hidden = true;
+      }
+      hit.addEventListener("pointermove", move);
+      hit.addEventListener("pointerdown", move);
+      hit.addEventListener("pointerleave", leave);
+    }
+
+    document.querySelectorAll(".seg button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.market = b.dataset.market;
+        document.querySelectorAll(".seg button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+        render();
+      });
+    });
+    ["team", "keep"].forEach(function (id) {
+      $(id).addEventListener("input", function () {
+        state[id] = Number(this.value);
+        if (state.keep >= state.team) { state.keep = state.team - 1; $("keep").value = state.keep; }
+        $("teamOut").textContent = state.team;
+        $("keepOut").textContent = state.keep;
+        render();
+      });
+    });
+    document.addEventListener("langchange", render);
+    window.addEventListener("resize", render);
+    render();
   })();
 </script>
 </body>
