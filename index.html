@@ -117,28 +117,21 @@
   .block-head p { margin-top: 12px; color: var(--muted); max-width: 46em; }
   .block-body { margin-left: 144px; }
 
-  /* 三大理由 */
-  .pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-  .pillars > div { background: var(--sheet); padding: 32px; }
-  .pillars .k { font-size: .8em; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
-  .pillars h3 { font-family: var(--serif); font-size: 1.4em; line-height: 1.4; margin: 8px 0 12px; }
-  .pillars p { color: var(--muted); }
-
-  /* JD 對照 */
-  .match { border-top: 2px solid var(--ink); }
-  .match .row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; padding: 28px 0; border-bottom: 1px solid var(--line); }
-  .match .req .tag { display: inline-block; font-size: .75em; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 2px 10px; border-radius: 99px; margin-bottom: 8px; }
-  .match .req h3 { font-size: 1.12em; line-height: 1.5; }
-  .match .ev li { position: relative; padding-left: 20px; }
-  .match .ev li + li { margin-top: 6px; }
-  .match .ev li::before { content: ""; position: absolute; left: 0; top: .75em; width: 8px; height: 2px; background: var(--accent); }
-  .match .ev strong { color: var(--ink); }
-  .match-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; font-size: .8em; color: var(--muted); letter-spacing: .1em; font-weight: 700; padding-bottom: 10px; }
+  /* 職缺對照（精簡） */
+  .core { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .core > div { background: var(--sheet); border: 1px solid var(--line); border-top: 4px solid var(--accent); padding: 28px 32px; }
+  .core .k, .why-onprem .k { font-size: .78em; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
+  .core h3 { font-family: var(--serif); font-size: 1.35em; line-height: 1.4; margin: 6px 0 10px; }
+  .core p { color: var(--muted); }
+  .core strong { color: var(--ink); }
+  .also { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .85em; }
+  .also-lbl { color: var(--muted); margin-right: 4px; }
+  .chip { border: 1px solid var(--line); border-radius: 99px; padding: 2px 12px; color: var(--muted); background: var(--sheet); }
 
   /* 理解 MICH */
-  .why-onprem { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .why-onprem { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
   .why-onprem > div { background: var(--sheet); border: 1px solid var(--line); border-left: 4px solid var(--accent); padding: 24px 28px; }
-  .why-onprem h3 { font-size: 1.1em; margin-bottom: 6px; }
+  .why-onprem h3 { font-size: 1.1em; margin: 6px 0; line-height: 1.5; }
   .why-onprem p { color: var(--muted); }
   .sub { font-family: var(--serif); font-size: 1.35em; font-weight: 900; margin: 56px 0 8px; }
   .sub-note { color: var(--muted); margin-bottom: 24px; }
@@ -191,7 +184,7 @@
     .block-body { margin-left: 0; }
     .block-head { grid-template-columns: 1fr; gap: 12px; }
     .block-head .no { width: 64px; }
-    .pillars, .personas, .proof, .plan { grid-template-columns: 1fr; }
+    .why-onprem, .personas, .proof, .plan { grid-template-columns: 1fr; }
     .plan > div, .plan > div + div { padding: 24px 0; border-left: 0; }
     .plan > div + div { border-top: 1px solid var(--line); }
   }
@@ -202,9 +195,7 @@
     .hero .photo { width: 160px; order: -1; }
     .stats { grid-template-columns: 1fr; }
     .stats > div { padding: 16px 0 0; }
-    .match .row, .match-head { grid-template-columns: 1fr; gap: 12px; }
-    .match-head { display: none; }
-    .why-onprem, .honest { grid-template-columns: 1fr; }
+    .core, .honest { grid-template-columns: 1fr; }
     .translate { grid-template-columns: 1fr; }
     .translate .arrow { transform: rotate(90deg); justify-self: start; }
     section.block { padding-top: 64px; }
@@ -218,10 +209,10 @@
   <div class="wrap">
     <div class="brand">蔡承佑 <span>× <b>MICH</b></span></div>
     <nav class="nav">
-      <a href="#fit"><span data-l="zh">三個理由</span><span data-l="en">Why me</span><span data-l="ja">3つの理由</span></a>
-      <a href="#match"><span data-l="zh">職缺對照</span><span data-l="en">JD match</span><span data-l="ja">求人との対応</span></a>
-      <a href="#mich"><span data-l="zh">我理解的 MICH</span><span data-l="en">MICH, my take</span><span data-l="ja">MICHの理解</span></a>
+      <a href="#match"><span data-l="zh">核心條件</span><span data-l="en">Core fit</span><span data-l="ja">重要条件</span></a>
       <a href="#proof"><span data-l="zh">AI 實作</span><span data-l="en">AI in practice</span><span data-l="ja">AI 実践</span></a>
+      <a href="#mich"><span data-l="zh">我對 MICH 的認知</span><span data-l="en">How I see MICH</span><span data-l="ja">MICH の理解</span></a>
+      <a href="#honest"><span data-l="zh">補強</span><span data-l="en">Growing</span><span data-l="ja">伸ばす点</span></a>
       <a href="#plan"><span data-l="zh">90 天計劃</span><span data-l="en">90 days</span><span data-l="ja">90日計画</span></a>
     </nav>
     <div class="langs-switch" role="group" aria-label="Language">
@@ -257,99 +248,64 @@
     </div>
   </section>
 
-  <!-- 01 三個理由 -->
-  <section class="block" id="fit">
+  <!-- 01 職缺對照 -->
+  <section class="block" id="match">
     <div class="wrap">
       <div class="block-head">
         <div class="no">01</div>
         <div>
-          <h2><span data-l="zh">一句話的答案：三個理由</span><span data-l="en">The short answer: three reasons</span><span data-l="ja">ひと言で言うと：3つの理由</span></h2>
-          <p><span data-l="zh">這個職位要的不只是會寫文案，而是能跨市場、跨語言，把技術講成生意，還要會用 AI 把產出變快。</span><span data-l="en">This role isn't just copywriting. It's turning technology into business value across markets and languages, and using AI to ship faster.</span><span data-l="ja">このポジションに必要なのは文章力だけではありません。市場と言語を越えて技術をビジネスの言葉に置き換え、AI で成果物のスピードを上げることです。</span></p>
+          <h2><span data-l="zh">這個職缺最核心的兩件事</span><span data-l="en">The two things this role needs most</span><span data-l="ja">このポジションで最も重要な2つ</span></h2>
         </div>
       </div>
-      <div class="block-body pillars">
-        <div>
-          <div class="k">01 · LANGUAGE &amp; MARKET</div>
-          <h3><span data-l="zh">三種語言，三個市場</span><span data-l="en">Three languages, three markets</span><span data-l="ja">3言語、3市場</span></h3>
-          <p><span data-l="zh">MICH 的目標市場正好是我待過的台灣、日本、美國。我不只會翻譯，也懂各地客戶溝通的習慣，例如日本客戶重視細節和信任，美國客戶要先看到結論。</span><span data-l="en">MICH's target markets are exactly where I've lived: Taiwan, Japan, and the US. Beyond translating, I understand how each audience reads: Japanese buyers value detail and trust; US buyers want the bottom line first.</span><span data-l="ja">MICH のターゲット市場は、私が暮らした台湾・日本・アメリカそのものです。翻訳だけでなく、日本の顧客は細部と信頼を重視し、アメリカの顧客はまず結論を求める、といった各市場の伝え方の違いを理解しています。</span></p>
+      <div class="block-body">
+        <div class="core">
+          <div>
+            <div class="k">MUST-HAVE · GENERATIVE AI</div>
+            <h3><span data-l="zh">生成式 AI 實務能力</span><span data-l="en">Hands-on generative AI</span><span data-l="ja">生成 AI の実務力</span></h3>
+            <p><span data-l="zh">每天用 <strong>Claude、Claude Code、ChatGPT</strong> 做專案：設計 prompt、串接多步驟流程、自己驗證產出。這個網站就是成果之一，詳見第 02 段。</span><span data-l="en">I use <strong>Claude, Claude Code, and ChatGPT</strong> daily to build real projects: prompt design, multi-step workflows, and verifying output myself. This site is one result. See section 02.</span><span data-l="ja"><strong>Claude・Claude Code・ChatGPT</strong> を毎日使い、プロンプト設計、複数ステップのワークフロー構築、出力の検証まで自分で行っています。このサイトもその成果のひとつです（02 参照）。</span></p>
+          </div>
+          <div>
+            <div class="k">3 MARKETS · 3 LANGUAGES</div>
+            <h3><span data-l="zh">三個市場、三種語言</span><span data-l="en">Three markets, three languages</span><span data-l="ja">3市場・3言語</span></h3>
+            <p><span data-l="zh">中文母語、<strong>日文 JLPT N2</strong>、<strong>英文 TOEIC 880／TOEFL iBT 82</strong>。在台灣、日本、美國都生活和讀書過，也在世田谷區公所做過日英翻譯，懂得各市場的溝通習慣。</span><span data-l="en">Native Mandarin, <strong>JLPT N2 Japanese</strong>, <strong>TOEIC 880 / TOEFL iBT 82 English</strong>. I've lived and studied in Taiwan, Japan, and the US, and translated Japanese ⇄ English at Setagaya City Office, so I know how each market reads.</span><span data-l="ja">中国語ネイティブ、<strong>日本語 JLPT N2</strong>、<strong>英語 TOEIC 880／TOEFL iBT 82</strong>。台湾・日本・アメリカで生活・学習し、世田谷区役所では日英翻訳を担当。各市場の伝え方の違いを理解しています。</span></p>
+          </div>
         </div>
-        <div>
-          <div class="k">02 · TRANSLATE TECH</div>
-          <h3><span data-l="zh">把規格翻譯成生意</span><span data-l="en">Turning specs into business outcomes</span><span data-l="ja">スペックをビジネス価値へ</span></h3>
-          <p><span data-l="zh">我主修經濟，也修過行銷，習慣從「客戶能得到什麼」來思考。在世田谷區公所，我把行政資訊改寫成外籍居民看得懂的日英內容，這和把 GPU 規格改寫成廠長看得懂的價值是同一種能力。</span><span data-l="en">I studied economics and marketing, so I think in terms of what the customer gains. At Setagaya City Office I rewrote government information into Japanese and English that foreign residents could actually use. Turning GPU specs into value a plant manager cares about is the same skill.</span><span data-l="ja">経済学を専攻し、マーケティングも学んだため、「顧客が何を得るか」から考える習慣があります。世田谷区役所では、行政情報を外国人住民にもわかる日英の内容に書き直しました。GPU のスペックを工場長に伝わる価値に置き換えるのも、同じ力です。</span></p>
-        </div>
-        <div>
-          <div class="k">03 · AI-NATIVE</div>
-          <h3><span data-l="zh">AI 是我的日常工具</span><span data-l="en">AI is my everyday toolkit</span><span data-l="ja">AI は日常の道具</span></h3>
-          <p><span data-l="zh">我每天用 Claude 和 ChatGPT 工作：設計 prompt、串接多步驟流程，再自己檢查產出是否正確。這份網站、MICH 示範頁、我的個人 AI 助理，都是這樣做出來的。</span><span data-l="en">I work with Claude and ChatGPT daily: designing prompts, chaining multi-step workflows, and verifying the output myself. This site, a MICH demo page, and my personal AI assistant were all built this way.</span><span data-l="ja">毎日 Claude と ChatGPT で仕事をしています。プロンプト設計、複数ステップのワークフロー構築、そして出力の検証まで自分で行います。このサイト、MICH のデモページ、個人用 AI アシスタントもすべてこの方法で作りました。</span></p>
-        </div>
+        <p class="also">
+          <span class="also-lbl"><span data-l="zh">其他也符合</span><span data-l="en">Also covered</span><span data-l="ja">その他の経験</span></span>
+          <span class="chip"><span data-l="zh">社群經營（世田谷區公所）</span><span data-l="en">Social media (Setagaya City Office)</span><span data-l="ja">SNS 運用（世田谷区役所）</span></span>
+          <span class="chip"><span data-l="zh">地方活動籌辦與執行</span><span data-l="en">Community event planning</span><span data-l="ja">地域イベントの企画・運営</span></span>
+          <span class="chip"><span data-l="zh">競品與市場分析（松江 LEXUS）</span><span data-l="en">Competitor &amp; market research (Lexus)</span><span data-l="ja">競合・市場分析（松江 LEXUS）</span></span>
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- 02 JD 對照 -->
-  <section class="block" id="match">
+  <!-- 02 AI 實作 -->
+  <section class="block" id="proof">
     <div class="wrap">
       <div class="block-head">
         <div class="no">02</div>
         <div>
-          <h2><span data-l="zh">職缺要求 × 我的經歷</span><span data-l="en">What the role asks × what I bring</span><span data-l="ja">求める条件 × 私の経験</span></h2>
-          <p><span data-l="zh">左邊是 MICH 職缺說明的內容，右邊是我能拿出來的證據。</span><span data-l="en">Left: MICH's job description. Right: my evidence.</span><span data-l="ja">左が MICH の求人内容、右が私の具体的な経験です。</span></p>
+          <h2><span data-l="zh">AI 實作：我不只說，我已經在用</span><span data-l="en">AI in practice: already doing it</span><span data-l="ja">AI 実践：すでに使いこなしています</span></h2>
+          <p><span data-l="zh">職缺要求的 prompt 設計、多步驟流程、產出驗證，以下是我實際做過的例子。</span><span data-l="en">Prompt design, multi-step workflows, output verification: here's what I've actually built.</span><span data-l="ja">求人にあるプロンプト設計・複数ステップのワークフロー・出力の検証について、実際に作ったものを紹介します。</span></p>
         </div>
       </div>
-      <div class="block-body">
-        <div class="match-head"><div><span data-l="zh">職缺要求</span><span data-l="en">THE ROLE</span><span data-l="ja">求人内容</span></div><div><span data-l="zh">我的證據</span><span data-l="en">MY EVIDENCE</span><span data-l="ja">私の経験</span></div></div>
-        <div class="match">
-          <div class="row">
-            <div class="req"><span class="tag"><span data-l="zh">必備條件</span><span data-l="en">Must-have</span><span data-l="ja">必須条件</span></span>
-              <h3><span data-l="zh">英文書面與口語達專業水準，能在全英文會議代表 MICH</span><span data-l="en">Professional written and spoken English; represent MICH in English-only meetings</span><span data-l="ja">ビジネスレベルの英語力、英語のみの会議で MICH を代表できること</span></h3></div>
-            <ul class="ev">
-              <li><span data-l="zh"><strong>TOEIC 880、TOEFL iBT 82</strong></span><span data-l="en"><strong>TOEIC 880, TOEFL iBT 82</strong></span><span data-l="ja"><strong>TOEIC 880、TOEFL iBT 82</strong></span></li>
-              <li><span data-l="zh">在美國德州大學達拉斯分校修讀行銷，用全英文上課、做報告</span><span data-l="en">Studied marketing at the University of Texas at Dallas, fully in English</span><span data-l="ja">テキサス大学ダラス校でマーケティングを英語で履修</span></li>
-              <li><span data-l="zh">天普大學（美國大學日本校區）全英文授課，雙主修日文與經濟</span><span data-l="en">Temple University (Japan Campus), an English-medium US university; double major in Japanese and Economics</span><span data-l="ja">テンプル大学（アメリカの大学の日本校）で英語による授業を受け、日本語と経済学をダブルメジャー</span></li>
-            </ul>
-          </div>
-          <div class="row">
-            <div class="req"><span class="tag"><span data-l="zh">必備條件</span><span data-l="en">Must-have</span><span data-l="ja">必須条件</span></span>
-              <h3><span data-l="zh">生成式 AI 實務能力：prompt 設計、多步驟流程、產出驗證</span><span data-l="en">Hands-on generative AI: prompt design, multi-step workflows, output verification</span><span data-l="ja">生成 AI の実務力：プロンプト設計、複数ステップのワークフロー、出力の検証</span></h3></div>
-            <ul class="ev">
-              <li><span data-l="zh">每天用 <strong>Claude、Claude Code、ChatGPT</strong> 工作</span><span data-l="en">Daily user of <strong>Claude, Claude Code, and ChatGPT</strong></span><span data-l="ja"><strong>Claude・Claude Code・ChatGPT</strong> を毎日活用</span></li>
-              <li><span data-l="zh">用 Claude 建了串接 Discord、Notion、Gmail、Google Calendar 的個人 AI 助理（詳見第 04 段）</span><span data-l="en">Built a personal AI assistant with Claude that connects Discord, Notion, Gmail, and Google Calendar (see section 04)</span><span data-l="ja">Claude で Discord・Notion・Gmail・Google カレンダーを連携した個人用 AI アシスタントを構築（04 参照）</span></li>
-              <li><span data-l="zh">這個三語網站本身就是作品，內容由我決定、AI 協助產出，再由我逐句核對</span><span data-l="en">This trilingual site is itself the proof: I set the direction, AI helped draft, and I checked every line</span><span data-l="ja">この3言語サイト自体が実例です。方向性は私が決め、AI が下書きし、私が一文ずつ確認しました</span></li>
-            </ul>
-          </div>
-          <div class="row">
-            <div class="req"><span class="tag"><span data-l="zh">定位與訊息</span><span data-l="en">Positioning</span><span data-l="ja">ポジショニング</span></span>
-              <h3><span data-l="zh">三個市場、三種語言，所有渠道訊息一致</span><span data-l="en">Consistent messaging across three markets, three languages, every channel</span><span data-l="ja">3市場・3言語・全チャネルでのメッセージの一貫性</span></h3></div>
-            <ul class="ev">
-              <li><span data-l="zh">中文母語、<strong>日文 JLPT N2</strong>、英文專業水準</span><span data-l="en">Native Mandarin, <strong>JLPT N2 Japanese</strong>, professional English</span><span data-l="ja">中国語ネイティブ、<strong>日本語 JLPT N2</strong>、ビジネス英語</span></li>
-              <li><span data-l="zh">在世田谷區公所負責導覽資料與網站的<strong>日英翻譯</strong></span><span data-l="en">Translated guides and website content <strong>Japanese ⇄ English</strong> at Setagaya City Office</span><span data-l="ja">世田谷区役所で案内資料とウェブサイトの<strong>日英翻訳</strong>を担当</span></li>
-            </ul>
-          </div>
-          <div class="row">
-            <div class="req"><span class="tag"><span data-l="zh">內容與數位渠道</span><span data-l="en">Content &amp; digital</span><span data-l="ja">コンテンツ・デジタル</span></span>
-              <h3><span data-l="zh">官網雙語內容、LinkedIn、Meta 社群經營</span><span data-l="en">Bilingual website, LinkedIn, Meta and regional social channels</span><span data-l="ja">バイリンガルの公式サイト、LinkedIn、Meta などのSNS運用</span></h3></div>
-            <ul class="ev">
-              <li><span data-l="zh">協助<strong>世田谷區公所社群媒體經營</strong>，推廣地方活動及觀光資訊</span><span data-l="en">Supported <strong>Setagaya City Office's social media</strong>, promoting local events and tourism</span><span data-l="ja"><strong>世田谷区役所の SNS 運用</strong>を担当し、地域イベントや観光情報を発信</span></li>
-              <li><span data-l="zh">自己架設並維護三語網站，熟悉網站內容與資訊架構</span><span data-l="en">Built and maintain my own trilingual websites, so I know content and site structure hands-on</span><span data-l="ja">3言語のウェブサイトを自ら制作・運用し、コンテンツとサイト構成を実践で理解</span></li>
-            </ul>
-          </div>
-          <div class="row">
-            <div class="req"><span class="tag"><span data-l="zh">活動與現場</span><span data-l="en">Events</span><span data-l="ja">イベント</span></span>
-              <h3><span data-l="zh">研討會、展會（COMPUTEX、SEMICON）端到端執行</span><span data-l="en">End-to-end events and trade shows (COMPUTEX, SEMICON Taiwan, GTC)</span><span data-l="ja">セミナー・展示会（COMPUTEX、SEMICON Taiwan、GTC）の企画から運営まで</span></h3></div>
-            <ul class="ev">
-              <li><span data-l="zh">參與世田谷區<strong>地域活動的籌辦與執行</strong>，協調居民與政府部門</span><span data-l="en"><strong>Planned and ran community events</strong> in Setagaya, coordinating residents and government departments</span><span data-l="ja">世田谷区の<strong>地域イベントの企画・運営</strong>に参加し、住民と行政部門の間を調整</span></li>
-              <li><span data-l="zh">在日本公部門學到的細節與流程管理，正好用在需要日本客戶出席的活動</span><span data-l="en">The process discipline I learned in Japanese public sector maps directly onto events with Japanese guests</span><span data-l="ja">日本の行政で身につけた細部と段取りへの意識は、日本からの来場者を迎えるイベントにそのまま活かせます</span></li>
-            </ul>
-          </div>
-          <div class="row">
-            <div class="req"><span class="tag"><span data-l="zh">通路與報表</span><span data-l="en">Sales enablement</span><span data-l="ja">営業支援</span></span>
-              <h3><span data-l="zh">競品比較、銷售素材、行銷報表</span><span data-l="en">Competitive comparisons, sales collateral, marketing reports</span><span data-l="ja">競合比較、営業資料、マーケティングレポート</span></h3></div>
-            <ul class="ev">
-              <li><span data-l="zh">在松江 LEXUS 實習時，<strong>蒐集產業趨勢與競爭對手資訊</strong>，做市場分析</span><span data-l="en">At Lexus Songjiang, <strong>researched industry trends and competitors</strong> for market analysis</span><span data-l="ja">松江 LEXUS のインターンで<strong>業界動向と競合情報を収集</strong>し、市場分析を実施</span></li>
-              <li><span data-l="zh">經濟學背景，對數字和報表不陌生，能讀懂 ROI 與成本比較</span><span data-l="en">Economics background: comfortable with numbers, ROI, and cost comparisons</span><span data-l="ja">経済学のバックグラウンドがあり、数字・ROI・コスト比較に抵抗がない</span></li>
-            </ul>
-          </div>
+      <div class="block-body proof">
+        <div>
+          <div class="tool">CLAUDE CODE · GITHUB</div>
+          <h3><span data-l="zh">這個三語網站</span><span data-l="en">This trilingual site</span><span data-l="ja">この3言語サイト</span></h3>
+          <p><span data-l="zh">讓 Claude 讀我的履歷、MICH 官網和職缺說明，整理出對照架構。中日英文案由我決定方向、逐句修改，最後發布到 GitHub。</span><span data-l="en">Claude read my résumé, MICH's website, and the job description to draft the structure. I set the direction, edited every line in all three languages, and published it on GitHub.</span><span data-l="ja">Claude に履歴書・MICH 公式サイト・求人内容を読み込ませて構成を作成。3言語の文章は私が方向性を決めて一文ずつ修正し、GitHub で公開しました。</span></p>
+        </div>
+        <div>
+          <div class="tool">CLAUDE CODE · WEB</div>
+          <h3><span data-l="zh">MICH 產品示範頁</span><span data-l="en">MICH landing page demo</span><span data-l="ja">MICH ランディングページのデモ</span></h3>
+          <p><span data-l="zh">練習把 MICH 的地端 AI 產品重新包裝成一頁式介紹，等於幫產品頁寫了一次草稿。</span><span data-l="en">An exercise in repackaging MICH's on-prem AI offering as a one-page pitch, essentially a first draft of a product page.</span><span data-l="ja">MICH のオンプレミス AI 製品を1ページの紹介に再構成した練習作品。製品ページの草案にあたります。</span></p>
+          <a class="more" href="https://github.com/Chari317-ai/MICH_DEMO" target="_blank" rel="noopener">GitHub →</a>
+        </div>
+        <div>
+          <div class="tool">CLAUDE · MCP · AUTOMATION</div>
+          <h3><span data-l="zh">個人 AI 助理</span><span data-l="en">Personal AI agent</span><span data-l="ja">個人用 AI アシスタント</span></h3>
+          <p><span data-l="zh">用 Claude 串接 Discord、Notion、Gmail、Google Calendar：在手機上傳一句「午餐 120」就自動記帳；每天早上自動整理信件和行程。這就是多步驟流程的實際應用。</span><span data-l="en">Claude wired into Discord, Notion, Gmail, and Google Calendar: text "lunch 120" from my phone and it logs the expense; every morning it summarizes my inbox and schedule. Multi-step workflows in daily use.</span><span data-l="ja">Claude で Discord・Notion・Gmail・Google カレンダーを連携。スマホから「ランチ 120」と送るだけで家計簿に記録し、毎朝メールと予定を自動でまとめます。複数ステップのワークフローを日常で活用しています。</span></p>
         </div>
       </div>
     </div>
@@ -361,31 +317,30 @@
       <div class="block-head">
         <div class="no">03</div>
         <div>
-          <h2><span data-l="zh">我理解的 MICH：為什麼製造業堅持數據不出廠？</span><span data-l="en">My take on MICH: why manufacturers keep data on-site</span><span data-l="ja">私が理解する MICH：なぜ製造業はデータを工場の外に出さないのか</span></h2>
-          <p><span data-l="zh">這是職缺說明中的必備條件。以下是我用自己的話整理的答案。</span><span data-l="en">The job description lists this as a must-have. Here is my answer, in my own words.</span><span data-l="ja">求人の必須条件にある問いです。私の言葉でまとめました。</span></p>
+          <h2><span data-l="zh">我對 MICH 的認知：解決什麼問題、帶來什麼優勢</span><span data-l="en">How I see MICH: the problems it solves, the edge it brings</span><span data-l="ja">私が理解する MICH：どんな課題を解決し、どんな強みがあるのか</span></h2>
+          <p><span data-l="zh">以下是我用自己的話整理的三大優勢，也回答了職缺問的「為什麼製造業堅持數據不出廠」。</span><span data-l="en">Three advantages in my own words, which also answer the job description's question: why do manufacturers insist on keeping data on-site?</span><span data-l="ja">私の言葉でまとめた3つの強みです。求人にある「なぜ製造業はデータを社外に出さないのか」への答えでもあります。</span></p>
         </div>
       </div>
       <div class="block-body">
         <div class="why-onprem">
           <div>
-            <h3><span data-l="zh">① 製程數據就是競爭力</span><span data-l="en">① Process data is the competitive edge</span><span data-l="ja">① 製造データこそが競争力</span></h3>
-            <p><span data-l="zh">良率參數、配方、排程經驗是工廠花了很多年累積的祕密。放到雲端，就算機率很小，萬一外流就無法挽回。</span><span data-l="en">Yield parameters, recipes, and scheduling know-how took years to build. Even a small chance of it leaking from the cloud is a risk you can't undo.</span><span data-l="ja">歩留まりのパラメータ、配合、生産計画のノウハウは長年かけて築いた企業秘密です。クラウドからの流出は、確率が低くても取り返しがつきません。</span></p>
+            <div class="k">01 · SECURITY</div>
+            <h3><span data-l="zh">資安：數據一步都不離開機房</span><span data-l="en">Security: data never leaves the building</span><span data-l="ja">セキュリティ：データは一歩も外に出ない</span></h3>
+            <p><span data-l="zh">這是最核心的價值。走雲端，等於把製程參數、良率、配方這些祕密交到別人手上，一旦外流就無法挽回。很多製造業還受客戶保密協議約束，數據本來就不能出廠。MICH 讓 AI 在自家機房運算，數據 0% 外移。</span><span data-l="en">This is the core value. Going to the cloud means handing process parameters, yield data, and recipes to someone else, and a leak can't be undone. Many manufacturers are also bound by customer NDAs that keep data on-site. MICH runs AI in the customer's own data center: 0% of data leaves.</span><span data-l="ja">最も核心となる価値です。クラウドを使うことは、製造パラメータや歩留まり、配合といった機密を他者に預けることを意味し、流出すれば取り返しがつきません。顧客との秘密保持契約により、データを工場外に出せない製造業も多くあります。MICH は AI を自社サーバールームで動かし、データの外部移転は 0% です。</span></p>
           </div>
           <div>
-            <h3><span data-l="zh">② 客戶和法規不允許</span><span data-l="en">② Customers and regulations say no</span><span data-l="ja">② 顧客と規制が許さない</span></h3>
-            <p><span data-l="zh">很多代工廠和品牌客戶簽了保密協議，數據放哪裡要經過同意。各國對數據存放的規定也不同，留在自家機房最單純。</span><span data-l="en">Contract manufacturers sign NDAs with brand customers that control where data lives, and rules differ by country. Keeping it in-house is the simplest answer.</span><span data-l="ja">受託製造の多くはブランド顧客と秘密保持契約を結び、データの保管場所にも制約があります。国ごとに規制も異なるため、自社内に置くのが最もシンプルです。</span></p>
+            <div class="k">02 · COST &amp; DECISIONS</div>
+            <h3><span data-l="zh">大幅降低成本，決策品質更好</span><span data-l="en">Much lower cost, better decisions</span><span data-l="ja">コストを大幅に削減し、意思決定の質を高める</span></h3>
+            <p><span data-l="zh">以前要預測未來，得請數據分析團隊或數據科學家一筆一筆調出歷史紀錄來分析，花時間也花人力。現在 MICH 的 AI 可以直接從歷史數據做 machine learning，做出更長遠的預測。例如有車用零件廠用歷史工單訓練模型，優化排程與工時；製鞋集團的不良根因排查，從好幾天縮短到幾小時。這在效率上是最關鍵的改變。</span><span data-l="en">Forecasting used to mean data analysts or data scientists pulling historical records one by one: slow and expensive. With MICH, AI runs machine learning directly on historical data and forecasts further ahead. An auto-parts supplier trained a model on past work orders to optimize scheduling; a footwear group cut defect root-cause analysis from days to hours. That's the biggest efficiency gain.</span><span data-l="ja">これまで将来を予測するには、データアナリストやデータサイエンティストが過去の記録を一件ずつ抽出・分析する必要があり、時間も人手もかかっていました。MICH なら AI が過去データから直接 machine learning を行い、より長期の予測も可能です。自動車部品メーカーは過去の作業指示で学習したモデルで生産計画と工数を最適化し、製靴グループでは不良の原因特定が数日から数時間に短縮されました。効率面で最も大きな変化です。</span></p>
           </div>
           <div>
-            <h3><span data-l="zh">③ 工廠網路本來就和外網隔開</span><span data-l="en">③ Factory networks are isolated by design</span><span data-l="ja">③ 工場ネットワークはもともと外部と分離</span></h3>
-            <p><span data-l="zh">產線系統為了安全和穩定，通常不直接連網際網路。AI 放在廠內，才能即時接上 ERP 與產線數據，也不怕斷線。</span><span data-l="en">For safety and uptime, production systems usually aren't on the open internet. On-site AI can plug straight into ERP and line data in real time, with no dependence on an outside connection.</span><span data-l="ja">安全性と安定稼働のため、生産システムは通常インターネットに直接つながっていません。AI を工場内に置けば ERP や生産ラインのデータにリアルタイムで接続でき、回線障害の心配もありません。</span></p>
-          </div>
-          <div>
-            <h3><span data-l="zh">④ 長期成本看得到</span><span data-l="en">④ Predictable long-term cost</span><span data-l="ja">④ 長期コストが見通せる</span></h3>
-            <p><span data-l="zh">AI 一旦每天 24 小時在跑，雲端費用會隨用量一直增加。自己的機器是一次投資，三年總成本可以先算清楚，這也是 MICH 官網提供試算工具的原因。</span><span data-l="en">Once AI runs 24/7, cloud bills grow with usage. Owned hardware is a one-time investment with a three-year cost you can calculate upfront, which is why MICH offers a TCO calculator.</span><span data-l="ja">AI を24時間稼働させると、クラウド費用は使用量に応じて増え続けます。自社機器なら一度の投資で、3年間の総コストを事前に試算できます。MICH がサイトで試算ツールを提供しているのもそのためです。</span></p>
+            <div class="k">03 · ONE-STOP</div>
+            <h3><span data-l="zh">軟硬體一條龍，開箱就能用</span><span data-l="en">Hardware + software, ready out of the box</span><span data-l="ja">ハードとソフトを一括提供、すぐに使える</span></h3>
+            <p><span data-l="zh">從原廠 NVIDIA、Supermicro 硬體到 LowsiteOS 平台一起交付，IT 不必自己整合，也不必另組 AI 團隊。台灣供應鏈直供，典型 4 到 6 週就能跑出第一個 Agent。</span><span data-l="en">Genuine NVIDIA and Supermicro hardware plus the LowsiteOS platform, delivered together. IT doesn't integrate anything and no AI team is needed. Supplied straight from Taiwan's supply chain, the first agent typically runs in 4–6 weeks.</span><span data-l="ja">NVIDIA・Supermicro の純正ハードウェアと LowsiteOS をまとめて納品。IT 部門による統合作業も AI チームの新設も不要です。台湾のサプライチェーンから直接供給し、通常 4〜6 週間で最初の Agent が稼働します。</span></p>
           </div>
         </div>
 
-        <h3 class="sub"><span data-l="zh">同一套產品，對三種人說三種話</span><span data-l="en">One product, three conversations</span><span data-l="ja">同じ製品を、3種類の相手にどう伝えるか</span></h3>
+<h3 class="sub"><span data-l="zh">同一套產品，對三種人說三種話</span><span data-l="en">One product, three conversations</span><span data-l="ja">同じ製品を、3種類の相手にどう伝えるか</span></h3>
         <p class="sub-note"><span data-l="zh">職缺要求針對不同決策者發展價值主張。這是我根據 MICH 官網內容做的初稿。</span><span data-l="en">The role calls for a value proposition per decision-maker. Here's my first draft, based on MICH's public site.</span><span data-l="ja">求人では意思決定者ごとの価値提案が求められています。MICH の公式サイトをもとに作った私の草案です。</span></p>
         <div class="personas">
           <div class="persona">
@@ -414,37 +369,27 @@
     </div>
   </section>
 
-  <!-- 04 AI 實作 -->
-  <section class="block" id="proof">
+  <!-- 04 補強 -->
+  <section class="block" id="honest">
     <div class="wrap">
       <div class="block-head">
         <div class="no">04</div>
         <div>
-          <h2><span data-l="zh">AI 實作：我不只說，我已經在用</span><span data-l="en">AI in practice: already doing it</span><span data-l="ja">AI 実践：すでに使いこなしています</span></h2>
-          <p><span data-l="zh">職缺要求的 prompt 設計、多步驟流程、產出驗證，以下是我實際做過的例子。</span><span data-l="en">Prompt design, multi-step workflows, output verification: here's what I've actually built.</span><span data-l="ja">求人にあるプロンプト設計・複数ステップのワークフロー・出力の検証について、実際に作ったものを紹介します。</span></p>
+          <h2><span data-l="zh">我還在補強的地方</span><span data-l="en">Where I'm still growing</span><span data-l="ja">まだ伸ばしている部分</span></h2>
         </div>
       </div>
-      <div class="block-body proof">
+      <div class="block-body honest">
         <div>
-          <div class="tool">CLAUDE CODE · GITHUB</div>
-          <h3><span data-l="zh">這個三語網站</span><span data-l="en">This trilingual site</span><span data-l="ja">この3言語サイト</span></h3>
-          <p><span data-l="zh">讓 Claude 讀我的履歷、MICH 官網和職缺說明，整理出對照架構。中日英文案由我決定方向、逐句修改，最後發布到 GitHub。</span><span data-l="en">Claude read my résumé, MICH's website, and the job description to draft the structure. I set the direction, edited every line in all three languages, and published it on GitHub.</span><span data-l="ja">Claude に履歴書・MICH 公式サイト・求人内容を読み込ませて構成を作成。3言語の文章は私が方向性を決めて一文ずつ修正し、GitHub で公開しました。</span></p>
+          <h3><span data-l="zh">B2B 科技行銷經驗</span><span data-l="en">B2B tech marketing experience</span><span data-l="ja">B2B テック分野のマーケティング経験</span></h3>
+          <p><span data-l="zh">我是應屆畢業生，還沒有正式負責過 B2B 行銷。所以我先研究了 MICH 的產品和客戶，並用 AI 工具做出示範作品，讓自己進公司後能更快上手。</span><span data-l="en">I'm a new graduate and haven't owned B2B marketing yet. That's why I studied MICH's products and customers ahead of time and built working samples with AI, so I can contribute faster from day one.</span><span data-l="ja">新卒のため、B2B マーケティングを担当した経験はまだありません。そのため事前に MICH の製品と顧客を研究し、AI でサンプルを作り、入社後すぐに貢献できるよう準備しています。</span></p>
         </div>
         <div>
-          <div class="tool">CLAUDE CODE · WEB</div>
-          <h3><span data-l="zh">MICH 產品示範頁</span><span data-l="en">MICH landing page demo</span><span data-l="ja">MICH ランディングページのデモ</span></h3>
-          <p><span data-l="zh">練習把 MICH 的地端 AI 產品重新包裝成一頁式介紹，等於幫產品頁寫了一次草稿。</span><span data-l="en">An exercise in repackaging MICH's on-prem AI offering as a one-page pitch, essentially a first draft of a product page.</span><span data-l="ja">MICH のオンプレミス AI 製品を1ページの紹介に再構成した練習作品。製品ページの草案にあたります。</span></p>
-          <a class="more" href="https://github.com/Chari317-ai/MICH_DEMO" target="_blank" rel="noopener">GitHub →</a>
-        </div>
-        <div>
-          <div class="tool">CLAUDE · MCP · AUTOMATION</div>
-          <h3><span data-l="zh">個人 AI 助理</span><span data-l="en">Personal AI agent</span><span data-l="ja">個人用 AI アシスタント</span></h3>
-          <p><span data-l="zh">用 Claude 串接 Discord、Notion、Gmail、Google Calendar：在手機上傳一句「午餐 120」就自動記帳；每天早上自動整理信件和行程。這就是多步驟流程的實際應用。</span><span data-l="en">Claude wired into Discord, Notion, Gmail, and Google Calendar: text "lunch 120" from my phone and it logs the expense; every morning it summarizes my inbox and schedule. Multi-step workflows in daily use.</span><span data-l="ja">Claude で Discord・Notion・Gmail・Google カレンダーを連携。スマホから「ランチ 120」と送るだけで家計簿に記録し、毎朝メールと予定を自動でまとめます。複数ステップのワークフローを日常で活用しています。</span></p>
+          <h3><span data-l="zh">AI 基礎架構的技術深度</span><span data-l="en">Depth in AI infrastructure</span><span data-l="ja">AI インフラの技術的な深さ</span></h3>
+          <p><span data-l="zh">GPU 伺服器和機房架構我還在學。我的優勢是學得快、會發問，也懂得把技術團隊的語言轉成客戶聽得懂的話，這正是行銷要做的事。</span><span data-l="en">I'm still learning GPU servers and data-center architecture. My strength is learning fast, asking good questions, and translating engineering language into customer language, which is exactly what marketing needs.</span><span data-l="ja">GPU サーバーやデータセンターの構成はまだ学習中です。強みは学ぶ速さと質問する力、そして技術チームの言葉を顧客の言葉に置き換える力です。それこそがマーケティングに求められることだと考えています。</span></p>
         </div>
       </div>
     </div>
   </section>
-
   <!-- 05 90 天 -->
   <section class="block" id="plan">
     <div class="wrap">
@@ -487,27 +432,6 @@
     </div>
   </section>
 
-  <!-- 06 誠實面 -->
-  <section class="block" id="honest">
-    <div class="wrap">
-      <div class="block-head">
-        <div class="no">06</div>
-        <div>
-          <h2><span data-l="zh">我還在補強的地方</span><span data-l="en">Where I'm still growing</span><span data-l="ja">まだ伸ばしている部分</span></h2>
-        </div>
-      </div>
-      <div class="block-body honest">
-        <div>
-          <h3><span data-l="zh">B2B 科技行銷經驗</span><span data-l="en">B2B tech marketing experience</span><span data-l="ja">B2B テック分野のマーケティング経験</span></h3>
-          <p><span data-l="zh">我是應屆畢業生，還沒有正式負責過 B2B 行銷。所以我先研究了 MICH 的產品和客戶，並用 AI 工具做出示範作品，讓自己進公司後能更快上手。</span><span data-l="en">I'm a new graduate and haven't owned B2B marketing yet. That's why I studied MICH's products and customers ahead of time and built working samples with AI, so I can contribute faster from day one.</span><span data-l="ja">新卒のため、B2B マーケティングを担当した経験はまだありません。そのため事前に MICH の製品と顧客を研究し、AI でサンプルを作り、入社後すぐに貢献できるよう準備しています。</span></p>
-        </div>
-        <div>
-          <h3><span data-l="zh">AI 基礎架構的技術深度</span><span data-l="en">Depth in AI infrastructure</span><span data-l="ja">AI インフラの技術的な深さ</span></h3>
-          <p><span data-l="zh">GPU 伺服器和機房架構我還在學。我的優勢是學得快、會發問，也懂得把技術團隊的語言轉成客戶聽得懂的話，這正是行銷要做的事。</span><span data-l="en">I'm still learning GPU servers and data-center architecture. My strength is learning fast, asking good questions, and translating engineering language into customer language, which is exactly what marketing needs.</span><span data-l="ja">GPU サーバーやデータセンターの構成はまだ学習中です。強みは学ぶ速さと質問する力、そして技術チームの言葉を顧客の言葉に置き換える力です。それこそがマーケティングに求められることだと考えています。</span></p>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <section class="closing">
