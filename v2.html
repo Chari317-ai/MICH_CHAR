@@ -94,6 +94,36 @@
   .brand b { color: var(--accent-deep); }
   .counter { font-size: .85em; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .08em; }
   .bar-right { display: flex; align-items: center; gap: 16px; }
+  .menu-btn {
+    display: inline-flex; align-items: center; gap: 6px; border: 0; cursor: pointer;
+    padding: 5px 12px; border-radius: 999px; background: rgba(0, 0, 0, .05);
+    font: inherit; font-size: .82em; color: var(--ink);
+  }
+  .menu-btn:hover { background: rgba(0, 0, 0, .09); }
+
+  /* Contents overlay: jump to any slide (M to toggle, 1–9 to jump directly) */
+  .menu {
+    position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 16px;
+    background: rgba(235, 234, 231, .55);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+  .menu[hidden] { display: none; }
+  .menu-panel { width: min(520px, 100%); border-radius: 24px; padding: 22px; }
+  .menu-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 700; }
+  .menu-close { border: 0; background: rgba(0, 0, 0, .05); border-radius: 10px; width: 30px; height: 30px; cursor: pointer; font: inherit; }
+  .menu ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .menu ol a {
+    display: flex; align-items: center; gap: 14px; padding: 10px 12px; border-radius: 14px;
+    color: var(--ink); text-decoration: none; font-size: 1.02em;
+  }
+  .menu ol a:hover, .menu ol a:focus-visible { background: rgba(255, 255, 255, .7); outline: none; }
+  .menu ol a[aria-current="true"] { background: rgba(201, 163, 90, .18); font-weight: 700; }
+  .menu ol .num {
+    width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; flex-shrink: 0;
+    font-size: .8em; font-variant-numeric: tabular-nums; background: rgba(0, 0, 0, .06); color: var(--muted);
+  }
+  .menu ol a[aria-current="true"] .num { background: var(--accent); color: #fff; }
+  .menu-hint { margin: 14px 0 0; font-size: .75em; color: var(--muted); text-align: center; }
   .langs-switch { display: flex; padding: 3px; border-radius: 999px; background: rgba(0, 0, 0, .05); }
   .langs-switch button {
     border: 0; background: transparent; padding: 4px 12px; border-radius: 999px;
@@ -291,6 +321,7 @@
 <header class="topbar glass">
   <div class="brand">蔡承佑 × <b>MICH</b></div>
   <div class="bar-right">
+    <button type="button" class="menu-btn" id="menuBtn" aria-haspopup="dialog" aria-controls="menu"><span aria-hidden="true">☰</span><span data-l="zh">目錄</span><span data-l="en">Contents</span><span data-l="ja">目次</span></button>
     <div class="langs-switch" role="group" aria-label="Language">
       <button type="button" data-set="zh" aria-pressed="true">中</button>
       <button type="button" data-set="en" aria-pressed="false">EN</button>
@@ -300,6 +331,17 @@
   </div>
 </header>
 <ol class="dots" aria-label="Slides"></ol>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Contents" hidden>
+  <div class="menu-panel glass">
+    <div class="menu-head">
+      <span><span data-l="zh">目錄</span><span data-l="en">Contents</span><span data-l="ja">目次</span></span>
+      <button type="button" class="menu-close" id="menuClose" aria-label="Close">✕</button>
+    </div>
+    <ol id="menuList"></ol>
+    <p class="menu-hint"><span data-l="zh">數字鍵 1–9 直接跳頁 · M 開關目錄 · Esc 關閉</span><span data-l="en">Keys 1–9 jump to a slide · M toggles this menu · Esc closes</span><span data-l="ja">数字キー 1–9 で移動 · M で目次の開閉 · Esc で閉じる</span></p>
+  </div>
+</div>
 
 <div class="portrait-stage">
   <img class="portrait" id="portrait" src="images/Charlie.png" alt="蔡承佑">
@@ -311,7 +353,7 @@
 
 <main class="deck" id="deck">
 
-  <section class="slide hero" id="s-hero" data-title="開場">
+  <section class="slide hero" id="s-hero" data-title="開場" data-title-en="Intro" data-title-ja="はじめに">
     <div class="wrap">
       <div class="hero-text">
         <span class="tag glass"><span data-l="zh">應徵職位 · 全球行銷專員</span><span data-l="en">Application · Global Marketing Specialist</span><span data-l="ja">応募職種 · グローバルマーケティング担当</span></span>
@@ -338,7 +380,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s-match" data-title="核心條件">
+  <section class="slide" id="s-match" data-title="核心條件" data-title-en="Core fit" data-title-ja="重要条件">
     <div class="wrap">
       <span class="tag glass"><span data-l="zh">01 · 核心條件</span><span data-l="en">01 · Core fit</span><span data-l="ja">01 · 重要条件</span></span>
       <h2><span data-l="zh">這個職缺最核心的兩件事</span><span data-l="en">The two things this role needs most</span><span data-l="ja">このポジションで最も重要な2つ</span></h2>
@@ -361,7 +403,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s-mich" data-title="MICH 的優勢">
+  <section class="slide" id="s-mich" data-title="MICH 的優勢" data-title-en="How I see MICH" data-title-ja="MICH の理解">
     <div class="wrap">
       <span class="tag glass">02 · MICH</span>
       <h2><span data-l="zh">我對 MICH 的認知：解決什麼問題</span><span data-l="en">How I see MICH: the problems it solves</span><span data-l="ja">私が理解する MICH：どんな課題を解決するか</span></h2>
@@ -395,7 +437,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s-calc" data-title="算一筆帳">
+  <section class="slide" id="s-calc" data-title="算一筆帳" data-title-en="ROI model" data-title-ja="ROI 試算">
     <div class="wrap">
       <span class="tag glass">03 · ROI</span>
       <h2><span data-l="zh">不必擴編數據團隊，3 年差多少？</span><span data-l="en">Skip growing a data team. What's the 3-year difference?</span><span data-l="ja">データチームを増員しない場合、3年間でどれだけ違うか</span></h2>
@@ -425,7 +467,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s-personas" data-title="三種人三種話">
+  <section class="slide" id="s-personas" data-title="三種人三種話" data-title-en="Three conversations" data-title-ja="3つの伝え方">
     <div class="wrap">
       <span class="tag glass"><span data-l="zh">04 · 溝通</span><span data-l="en">04 · Messaging</span><span data-l="ja">04 · 伝え方</span></span>
       <h2><span data-l="zh">同一套產品，對三種人說三種話</span><span data-l="en">One product, three conversations</span><span data-l="ja">同じ製品を、3種類の相手にどう伝えるか</span></h2>
@@ -454,7 +496,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s-honest" data-title="補強">
+  <section class="slide" id="s-honest" data-title="補強" data-title-en="Growing" data-title-ja="伸ばす点">
     <div class="wrap">
       <span class="tag glass"><span data-l="zh">05 · 補強</span><span data-l="en">05 · Growing</span><span data-l="ja">05 · 伸ばす点</span></span>
       <h2><span data-l="zh">我還在補強的地方</span><span data-l="en">Where I'm still growing</span><span data-l="ja">まだ伸ばしている部分</span></h2>
@@ -476,7 +518,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s-plan" data-title="90 天計劃">
+  <section class="slide" id="s-plan" data-title="90 天計劃" data-title-en="First 90 days" data-title-ja="最初の90日">
     <div class="wrap">
       <span class="tag glass"><span data-l="zh">06 · 計劃</span><span data-l="en">06 · Plan</span><span data-l="ja">06 · 計画</span></span>
       <h2><span data-l="zh">如果加入 MICH，我的前 90 天</span><span data-l="en">My first 90 days at MICH</span><span data-l="ja">MICH 入社後の最初の90日</span></h2>
@@ -501,7 +543,7 @@
     </div>
   </section>
 
-  <section class="slide closing" id="s-closing" data-title="結語">
+  <section class="slide closing" id="s-closing" data-title="結語" data-title-en="Closing" data-title-ja="おわりに">
     <div class="wrap">
       <h2><span data-l="zh">讓 MICH 的故事，<br>在三個市場用三種語言被聽懂。</span><span data-l="en">Let's make MICH's story land<br>in three markets, in three languages.</span><span data-l="ja">MICH のストーリーを、<br>3つの市場に3つの言語で届けたい。</span></h2>
       <p class="lead"><span data-l="zh">謝謝您花時間看完，期待在面試中進一步交流。</span><span data-l="en">Thank you for reading. I look forward to talking more in the interview.</span><span data-l="ja">最後までご覧いただきありがとうございました。面接でお話しできることを楽しみにしております。</span></p>
@@ -691,16 +733,52 @@
     document.getElementById("total").textContent = slides.length;
     var index = 0;
 
+    var menu = document.getElementById("menu");
+    var menuList = document.getElementById("menuList");
+
+    function title(s) {
+      var lang = document.documentElement.getAttribute("data-lang") || "zh";
+      return (lang === "en" && s.dataset.titleEn) || (lang === "ja" && s.dataset.titleJa) || s.dataset.title;
+    }
+
     slides.forEach(function (s, i) {
       var li = document.createElement("li");
       var a = document.createElement("a");
       a.href = "#" + s.id;
-      a.title = s.dataset.title;
-      a.setAttribute("aria-label", s.dataset.title);
       li.appendChild(a);
       dots.appendChild(li);
+
+      var mi = document.createElement("li");
+      var ma = document.createElement("a");
+      ma.href = "#" + s.id;
+      ma.innerHTML = '<span class="num">' + (i + 1) + '</span><span class="lbl"></span>';
+      mi.appendChild(ma);
+      menuList.appendChild(mi);
     });
     var dotLinks = dots.querySelectorAll("a");
+    var menuLinks = menuList.querySelectorAll("a");
+
+    function label() {
+      slides.forEach(function (s, i) {
+        dotLinks[i].title = title(s);
+        dotLinks[i].setAttribute("aria-label", title(s));
+        menuLinks[i].querySelector(".lbl").textContent = title(s);
+      });
+    }
+    label();
+    document.addEventListener("langchange", label);
+
+    function openMenu() {
+      menu.hidden = false;
+      menuLinks[index].focus();
+    }
+    function closeMenu() {
+      menu.hidden = true;
+      document.activeElement.blur();
+    }
+    document.getElementById("menuBtn").addEventListener("click", openMenu);
+    document.getElementById("menuClose").addEventListener("click", closeMenu);
+    menu.addEventListener("click", function (ev) { if (ev.target === menu) closeMenu(); });
 
     function go(i) {
       i = Math.max(0, Math.min(slides.length - 1, i));
@@ -714,6 +792,7 @@
         index = slides.indexOf(e.target);
         cur.textContent = index + 1;
         dotLinks.forEach(function (d, j) { d.setAttribute("aria-current", String(j === index)); });
+        menuLinks.forEach(function (d, j) { d.setAttribute("aria-current", String(j === index)); });
         history.replaceState(null, "", "#" + e.target.id);
       });
     }, { root: deck, rootMargin: "-50% 0px -50% 0px" }); // the slide crossing the middle of the screen
@@ -726,11 +805,28 @@
       var t = document.getElementById(a.getAttribute("href").slice(1));
       if (!t) return;
       ev.preventDefault();
+      if (!menu.hidden) closeMenu();
       go(slides.indexOf(t));
     });
 
-    // Presentation keys: one press = one slide
+    // Presentation keys: one press = one slide; 1–9 jump; M toggles the contents menu
     window.addEventListener("keydown", function (ev) {
+      if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+      if (/^[1-9]$/.test(ev.key) && Number(ev.key) <= slides.length) {
+        ev.preventDefault();
+        if (!menu.hidden) closeMenu();
+        go(Number(ev.key) - 1);
+        return;
+      }
+      if (ev.key === "m" || ev.key === "M") { ev.preventDefault(); menu.hidden ? openMenu() : closeMenu(); return; }
+      if (!menu.hidden) {
+        // inside the menu: arrows move between items, Enter follows the focused link, Esc closes
+        var at = Array.prototype.indexOf.call(menuLinks, document.activeElement);
+        if (ev.key === "Escape") { ev.preventDefault(); closeMenu(); }
+        else if (ev.key === "ArrowDown" || ev.key === "ArrowRight") { ev.preventDefault(); menuLinks[Math.min(menuLinks.length - 1, at + 1)].focus(); }
+        else if (ev.key === "ArrowUp" || ev.key === "ArrowLeft") { ev.preventDefault(); menuLinks[Math.max(0, at - 1)].focus(); }
+        return;
+      }
       var next = ["ArrowDown", "PageDown", " ", "ArrowRight"];
       var prev = ["ArrowUp", "PageUp", "ArrowLeft"];
       if (next.indexOf(ev.key) >= 0) { ev.preventDefault(); go(index + (ev.shiftKey && ev.key === " " ? -1 : 1)); }
