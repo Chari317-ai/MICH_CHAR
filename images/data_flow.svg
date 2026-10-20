@@ -21,4 +21,5 @@
   <line x1="151" y1="80" x2="188" y2="80" stroke="#444441" stroke-width="1.5" marker-end="url(#arrow)"/>
   <line x1="321" y1="80" x2="358" y2="80" stroke="#444441" stroke-width="1.5" marker-end="url(#arrow)"/>
   <line x1="491" y1="80" x2="528" y2="80" stroke="#444441" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <ellipse cx="340" cy="80" rx="27" ry="19" fill="none" stroke="#D93025" stroke-width="2.5"/>
 </svg>
