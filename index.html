@@ -237,6 +237,18 @@
   .diagram { margin: 24px 0 0; padding: 24px; border-radius: 24px; }
   .diagram img { display: block; width: 100%; height: auto; }
   .tokens small { display: block; margin-top: 14px; font-size: .82em; color: var(--muted); letter-spacing: .04em; }
+  /* Live site preview inside a browser frame; the screenshot shows when offline or if the embed fails */
+  .browser { margin: 20px 0 0; padding: 0; border-radius: 18px; overflow: hidden; }
+  .browser-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--glass-edge); }
+  .browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(0, 0, 0, .12); }
+  .browser-url { margin-left: 12px; flex: 1; padding: 4px 14px; border-radius: 999px; background: rgba(255, 255, 255, .6); font-size: .78em; color: var(--muted); text-decoration: none; }
+  .browser-url:hover { color: var(--ink); }
+  .browser-view { position: relative; height: min(58svh, 540px); background: #f4f4f4; }
+  .browser-view img, .browser-view iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .browser-view img { object-fit: cover; object-position: top; }
+  .browser-view iframe { background: #fff; opacity: 0; transition: opacity .4s; }
+  .browser-view iframe.ready { opacity: 1; }
+  .caption { margin: 12px 0 0; font-size: .85em; color: var(--muted); }
   .photo { margin: 0; padding: 10px; border-radius: 24px; }
   .photo img { display: block; width: 100%; height: auto; max-height: 68svh; object-fit: cover; border-radius: 16px; }
   .persona .worry { font-style: italic; color: var(--accent-deep); }
@@ -406,9 +418,26 @@
     </div>
   </section>
 
+  <section class="slide" id="s-content" data-title="內容與數位渠道" data-title-en="Content &amp; channels" data-title-ja="コンテンツとチャネル">
+    <div class="wrap">
+      <span class="tag glass"><span data-l="zh">02 · 內容與數位渠道</span><span data-l="en">02 · Content &amp; channels</span><span data-l="ja">02 · コンテンツとチャネル</span></span>
+      <figure class="browser glass">
+        <div class="browser-bar">
+          <i></i><i></i><i></i>
+          <a class="browser-url" href="https://kamiorisa.tokyo/en/profile/" target="_blank" rel="noopener">kamiorisa.tokyo/en/profile <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="browser-view">
+          <img src="images/kamio_message.jpg" alt="神尾りさ official site, English profile: Message" width="1280" height="800">
+          <iframe data-src="https://kamiorisa.tokyo/en/profile/#prof-detail04" title="kamiorisa.tokyo English profile" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+      </figure>
+      <p class="caption"><span data-l="zh">世田谷區議員官方網站 · 內容編輯、日翻英在地化</span><span data-l="en">Setagaya City Council member's official site · content editing, Japanese→English localization</span><span data-l="ja">世田谷区議会議員 公式サイト · コンテンツ編集、日英ローカライズ</span></p>
+    </div>
+  </section>
+
   <section class="slide" id="s-mich" data-title="MICH 的優勢" data-title-en="How I see MICH" data-title-ja="MICH の理解">
     <div class="wrap">
-      <span class="tag glass">02 · MICH</span>
+      <span class="tag glass">03 · MICH</span>
       <h2><span data-l="zh">我對 MICH 的認知：解決什麼問題</span><span data-l="en">How I see MICH: the problems it solves</span><span data-l="ja">私が理解する MICH：どんな課題を解決するか</span></h2>
       <figure class="diagram glass"><img src="images/data_flow.svg?v=2" alt="JSON、Excel、資料庫 → Data Lake → Power BI → 報表" width="680" height="160"></figure>
     </div>
@@ -416,7 +445,7 @@
 
   <section class="slide" id="s-calc" data-title="算一筆帳" data-title-en="ROI model" data-title-ja="ROI 試算">
     <div class="wrap">
-      <span class="tag glass">03 · ROI</span>
+      <span class="tag glass">04 · ROI</span>
       <h2><span data-l="zh">不必擴編數據團隊，3 年差多少？</span><span data-l="en">Skip growing a data team. What's the 3-year difference?</span><span data-l="ja">データチームを増員しない場合、3年間でどれだけ違うか</span></h2>
       <p class="lead"><span data-l="zh">以前靠數據團隊分析歷史數據；有了 MICH，AI 直接從 data lake 學習，只需少數人操作。</span><span data-l="en">Forecasting used to need a data team. With MICH, AI learns straight from the data lake and a few people run it.</span><span data-l="ja">これまではデータチームが分析していました。MICH なら AI が data lake から直接学習し、少人数で運用できます。</span></p>
       <div class="calc">
@@ -441,35 +470,6 @@
         </figure>
       </div>
       <p class="fine"><span data-l="zh">假設：MICH 官網 Spec Advisor M2 試算（3 年 36.9 萬美元）；薪資取自 104 薪資情報、厚生勞動省 job tag、美國 BLS，含雇主附加成本。僅為面試用估算。</span><span data-l="en">Assumptions: MICH Spec Advisor M2 example ($369K over 3 years); salaries from 104 Salary Guide, MHLW job tag, and US BLS, including employer overhead. An interview estimate only.</span><span data-l="ja">前提：MICH 公式 Spec Advisor の M2 試算（3年 36.9万ドル）。給与は 104 薪資情報・厚生労働省 job tag・米国 BLS、事業主負担込み。面接用の試算です。</span></p>
-    </div>
-  </section>
-
-  <section class="slide" id="s-personas" data-title="三種人三種話" data-title-en="Three conversations" data-title-ja="3つの伝え方">
-    <div class="wrap">
-      <span class="tag glass"><span data-l="zh">04 · 溝通</span><span data-l="en">04 · Messaging</span><span data-l="ja">04 · 伝え方</span></span>
-      <h2><span data-l="zh">同一套產品，對三種人說三種話</span><span data-l="en">One product, three conversations</span><span data-l="ja">同じ製品を、3種類の相手にどう伝えるか</span></h2>
-      <p class="lead"><span data-l="zh">依 MICH 官網內容做的價值主張初稿。</span><span data-l="en">A first-draft value proposition per decision-maker, based on MICH's public site.</span><span data-l="ja">MICH 公式サイトをもとにした価値提案の草案です。</span></p>
-      <div class="grid c3">
-        <article class="card glass persona">
-          <div class="kicker">CISO · IT DIRECTOR</div>
-          <h3><span data-l="zh">資安與 IT 決策者</span><span data-l="en">Security & IT leaders</span><span data-l="ja">セキュリティ・IT 責任者</span></h3>
-          <p class="worry"><span data-l="zh">「數據會外流嗎？要另外組團隊整合嗎？」</span><span data-l="en">"Will data leak? Do we need a team just to integrate this?"</span><span data-l="ja">「データは漏れないか？統合に専任チームが必要では？」</span></p>
-          <p><span data-l="zh">推論全在自家機房，數據 0% 外移；原廠硬體、軟硬體一起交付，IT 不必自己整合。</span><span data-l="en">All inference stays in your data center, 0% of data leaves. Genuine hardware and software arrive as one stack, so IT doesn't stitch it together.</span><span data-l="ja">推論はすべて自社サーバールーム内、データ外部移転は 0%。純正ハードとソフトを一体で納品し、IT の統合作業は不要。</span></p>
-        </article>
-        <article class="card glass persona">
-          <div class="kicker">PLANT MANAGER · COO</div>
-          <h3><span data-l="zh">廠務與製造主管</span><span data-l="en">Plant & operations heads</span><span data-l="ja">工場・製造部門の責任者</span></h3>
-          <p class="worry"><span data-l="zh">「導入要多久？真的能改善良率嗎？」</span><span data-l="en">"How long until it works? Will it actually improve yield?"</span><span data-l="ja">「導入にどれくらいかかる？歩留まりは本当に改善する？」</span></p>
-          <p><span data-l="zh">典型 4–6 週跑出第一個 Agent；製鞋集團不良根因排查從數天縮到數小時。</span><span data-l="en">The first agent typically runs in 4–6 weeks. A footwear group cut defect root-cause analysis from days to hours.</span><span data-l="ja">通常 4〜6 週間で最初の Agent が稼働。製靴グループでは不良の原因特定が数日から数時間に。</span></p>
-        </article>
-        <article class="card glass persona">
-          <div class="kicker">R&amp;D LEAD · ENGINEERS</div>
-          <h3><span data-l="zh">研發團隊</span><span data-l="en">R&amp;D teams</span><span data-l="ja">研究開発チーム</span></h3>
-          <p class="worry"><span data-l="zh">「研發機密安全嗎？資深工程師的經驗會不會流失？」</span><span data-l="en">"Is our IP safe? Will senior engineers' know-how walk out the door?"</span><span data-l="ja">「研究機密は守れる？ベテランのノウハウは失われない？」</span></p>
-          <p><span data-l="zh">模型和數據都在自己機房；跨國藥廠把資深經驗整理成知識庫，新人上手更快。</span><span data-l="en">Models and data stay in-house. A multinational drug maker turned senior engineers' know-how into a knowledge base and cut ramp-up time.</span><span data-l="ja">モデルもデータも社内で処理。多国籍製薬会社ではベテランの知見をナレッジベース化し、新人の立ち上がりを短縮。</span></p>
-        </article>
-      </div>
-      <div class="also glass"><b>LowsiteOS + NVIDIA AI Enterprise + Supermicro</b><span><span data-l="zh">→ 不用組 AI 團隊，開箱就能用，數據一步都不離開。</span><span data-l="en">→ No AI team needed. It works out of the box, and your data never leaves.</span><span data-l="ja">→ AI チーム不要。届いたその日から使え、データは一歩も外に出ません。</span></span></div>
     </div>
   </section>
 
@@ -752,6 +752,13 @@
       });
     }, { root: deck, rootMargin: "-50% 0px -50% 0px" }); // the slide crossing the middle of the screen
     slides.forEach(function (s) { io.observe(s); });
+
+    // Embed the live site only when online; keep the screenshot if it never loads
+    var frame = document.querySelector(".browser-view iframe");
+    if (frame && navigator.onLine) {
+      frame.addEventListener("load", function () { frame.classList.add("ready"); });
+      frame.src = frame.dataset.src;
+    }
 
     // In-page links scroll inside the deck
     document.addEventListener("click", function (ev) {
