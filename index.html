@@ -232,6 +232,8 @@
   .tokens { padding: 48px 40px; border-radius: 24px; text-align: center; }
   .tokens strong { display: block; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
   .tokens span { display: block; margin-top: 12px; font-size: 1.1em; letter-spacing: .3em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; }
+  .diagram { margin: 24px 0 0; padding: 24px; border-radius: 24px; }
+  .diagram img { display: block; width: 100%; height: auto; }
   .photo { margin: 0; padding: 10px; border-radius: 24px; }
   .photo img { display: block; width: 100%; height: auto; max-height: 68svh; object-fit: cover; border-radius: 16px; }
   .persona .worry { font-style: italic; color: var(--accent-deep); }
@@ -381,8 +383,8 @@
       <div class="panel glass">
         <div class="panel-head"><span data-l="zh">AI 實戰</span><span data-l="en">AI in practice</span><span data-l="ja">AI 実務</span> <span class="arrow" aria-hidden="true">↗</span></div>
         <div class="status"><span data-l="zh">每天都在用</span><span data-l="en">Used every day</span><span data-l="ja">毎日使用</span></div>
-        <div class="kv"><span><span data-l="zh">工具</span><span data-l="en">Tools</span><span data-l="ja">ツール</span></span><b>Claude · ChatGPT</b></div>
-        <div class="kv"><span><span data-l="zh">這個網站</span><span data-l="en">This site</span><span data-l="ja">このサイト</span></span><b><span data-l="zh">用 Claude 做的</span><span data-l="en">Built with Claude</span><span data-l="ja">Claude で制作</span></b></div>
+        <div class="kv"><span><span data-l="zh">工具</span><span data-l="en">Tools</span><span data-l="ja">ツール</span></span><b>Claude Code · Codex</b></div>
+        <div class="kv"><span><span data-l="zh">這個網站</span><span data-l="en">This site</span><span data-l="ja">このサイト</span></span><b><span data-l="zh">用 Claude Code、Codex 做的</span><span data-l="en">Built with Claude Code &amp; Codex</span><span data-l="ja">Claude Code・Codex で制作</span></b></div>
       </div>
     </div>
   </section>
@@ -404,33 +406,7 @@
     <div class="wrap">
       <span class="tag glass">02 · MICH</span>
       <h2><span data-l="zh">我對 MICH 的認知：解決什麼問題</span><span data-l="en">How I see MICH: the problems it solves</span><span data-l="ja">私が理解する MICH：どんな課題を解決するか</span></h2>
-      <p class="lead"><span data-l="zh">用我自己的話整理四大優勢，也回答「為什麼製造業堅持數據不出廠」。</span><span data-l="en">Four advantages in my own words, which also answer: why do manufacturers keep data on-site?</span><span data-l="ja">私の言葉でまとめた4つの強み。「なぜ製造業はデータを社外に出さないのか」への答えでもあります。</span></p>
-      <div class="grid c4">
-        <article class="card glass">
-          <div class="kicker">01 · SECURITY</div>
-          <div class="big">0%</div>
-          <h3><span data-l="zh">數據不離開機房</span><span data-l="en">Data never leaves the building</span><span data-l="ja">データは社外に出ない</span></h3>
-          <p><span data-l="zh">製程參數、良率、配方都留在自家機房，也守得住客戶的保密協議。</span><span data-l="en">Process parameters, yield, and recipes stay in your own data center, and customer NDAs stay intact.</span><span data-l="ja">製造パラメータ・歩留まり・配合はすべて自社サーバールームに。顧客との秘密保持契約も守れます。</span></p>
-        </article>
-        <article class="card glass">
-          <div class="kicker">02 · COST</div>
-          <div class="big"><span data-l="zh">天 → 時</span><span data-l="en">Days → hours</span><span data-l="ja">数日 → 数時間</span></div>
-          <h3><span data-l="zh">省成本，決策更好</span><span data-l="en">Lower cost, better decisions</span><span data-l="ja">低コストで、より良い判断を</span></h3>
-          <p><span data-l="zh">AI 直接從歷史數據學習預測，不必靠數據團隊一筆筆分析。製鞋集團的不良根因排查從數天縮到數小時。</span><span data-l="en">AI learns straight from historical data to forecast, without a data team digging through records. A footwear group cut defect root-cause analysis from days to hours.</span><span data-l="ja">AI が過去データから直接学習・予測し、データチームが一件ずつ分析する必要はありません。製靴グループでは不良の原因特定が数日から数時間に。</span></p>
-        </article>
-        <article class="card glass">
-          <div class="kicker">03 · ONE-STOP</div>
-          <div class="big"><span data-l="zh">4–6 週</span><span data-l="en">4–6 wks</span><span data-l="ja">4〜6 週間</span></div>
-          <h3><span data-l="zh">軟硬體一條龍</span><span data-l="en">Hardware + software, one stop</span><span data-l="ja">ハードとソフトを一括提供</span></h3>
-          <p><span data-l="zh">NVIDIA、Supermicro 硬體加 LowsiteOS 一起交付，不必自己整合，也不必另組 AI 團隊。</span><span data-l="en">NVIDIA and Supermicro hardware plus LowsiteOS, delivered together. No integration work, no AI team to hire.</span><span data-l="ja">NVIDIA・Supermicro のハードと LowsiteOS をまとめて納品。統合作業も AI チームの新設も不要です。</span></p>
-        </article>
-        <article class="card glass">
-          <div class="kicker">04 · AI ASSISTANT</div>
-          <div class="big"><span data-l="zh">隨時問</span><span data-l="en">Just ask</span><span data-l="ja">いつでも質問</span></div>
-          <h3><span data-l="zh">全公司的 AI 助手</span><span data-l="en">An AI assistant for everyone</span><span data-l="ja">全社員の AI アシスタント</span></h3>
-          <p><span data-l="zh">內建企業知識庫，業務、法務、新人都能用白話直接問數據，新人上手時間大幅縮短。</span><span data-l="en">A built-in company knowledge base. Sales, legal, or a new hire can ask about data in plain language, and onboarding gets much shorter.</span><span data-l="ja">社内ナレッジベースを内蔵。営業・法務・新入社員も普段の言葉でデータに質問でき、新人の立ち上がりも大幅に短縮。</span></p>
-        </article>
-      </div>
+      <figure class="diagram glass"><img src="images/data_flow.svg" alt="JSON、Excel、資料庫 → Data Lake → Power BI → 報表" width="680" height="160"></figure>
     </div>
   </section>
 
