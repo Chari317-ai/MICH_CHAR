@@ -228,6 +228,11 @@
   }
   .also b { color: var(--ink); }
   .also > span + span::before { content: "·"; margin-right: 18px; color: var(--accent); }
+  .proof { display: grid; grid-template-columns: 1fr 1.4fr; align-items: center; gap: 48px; }
+  .tokens strong { display: block; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .tokens span { display: block; margin-top: 12px; font-size: 1.1em; letter-spacing: .3em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; }
+  .photo { margin: 0; padding: 10px; border-radius: 24px; }
+  .photo img { display: block; width: 100%; height: auto; max-height: 68svh; object-fit: cover; border-radius: 16px; }
   .persona .worry { font-style: italic; color: var(--accent-deep); }
   .fix { padding-left: 12px; border-left: 2px solid var(--accent); }
   .timeline ul { margin: 0; padding-left: 18px; font-size: .9em; line-height: 1.7; color: #3d3a34; }
@@ -273,6 +278,7 @@
     .grid.c4 { grid-template-columns: 1fr 1fr; }
     .panels { width: 200px; }
     .gauge { display: none; }
+    .proof { grid-template-columns: 1fr; gap: 24px; }
   }
   @media (max-width: 760px) {
     .wrap { padding-left: 16px; padding-right: 16px; }
@@ -381,25 +387,12 @@
   </section>
 
   <section class="slide" id="s-match" data-title="核心條件" data-title-en="Core fit" data-title-ja="重要条件">
-    <div class="wrap">
-      <span class="tag glass"><span data-l="zh">01 · 核心條件</span><span data-l="en">01 · Core fit</span><span data-l="ja">01 · 重要条件</span></span>
-      <h2><span data-l="zh">這個職缺最核心的兩件事</span><span data-l="en">The two things this role needs most</span><span data-l="ja">このポジションで最も重要な2つ</span></h2>
-      <p class="lead"><span data-l="zh">兩項必要條件，我都有實際做過的東西可以拿出來看。</span><span data-l="en">For both must-haves, I have real work to show.</span><span data-l="ja">どちらの必須条件にも、実際の成果物でお応えできます。</span></p>
-      <div class="grid c2">
-        <article class="card glass">
-          <div class="kicker">MUST-HAVE · GENERATIVE AI</div>
-          <h3><span data-l="zh">生成式 AI 實務能力</span><span data-l="en">Hands-on generative AI</span><span data-l="ja">生成 AI の実務力</span></h3>
-          <div class="big"><span data-l="zh">每天用</span><span data-l="en">Daily</span><span data-l="ja">毎日</span></div>
-          <p><span data-l="zh">用 Claude、Claude Code、ChatGPT 做專案：設計 prompt、串接多步驟流程、自己驗證產出。這個網站就是成果之一。</span><span data-l="en">I build real projects with Claude, Claude Code, and ChatGPT: prompt design, multi-step workflows, and verifying output myself. This site is one result.</span><span data-l="ja">Claude・Claude Code・ChatGPT でプロンプト設計から複数ステップのワークフロー構築、出力の検証まで自分で行っています。このサイトもその成果のひとつです。</span></p>
-        </article>
-        <article class="card glass">
-          <div class="kicker">3 MARKETS · 3 LANGUAGES</div>
-          <h3><span data-l="zh">三個市場、三種語言</span><span data-l="en">Three markets, three languages</span><span data-l="ja">3市場・3言語</span></h3>
-          <div class="chips"><span><span data-l="zh">中文 母語</span><span data-l="en">Mandarin · native</span><span data-l="ja">中国語 ネイティブ</span></span><span><span data-l="zh">日文 N2</span><span data-l="en">Japanese N2</span><span data-l="ja">日本語 N2</span></span><span>TOEIC 880</span><span>TOEFL 82</span></div>
-          <p><span data-l="zh">台灣、日本、美國都生活和讀書過，也在世田谷區公所做過日英翻譯，懂各市場的溝通習慣。</span><span data-l="en">I've lived and studied in Taiwan, Japan, and the US, and translated Japanese ⇄ English at Setagaya City Office, so I know how each market reads.</span><span data-l="ja">台湾・日本・アメリカで生活・学習し、世田谷区役所では日英翻訳を担当。各市場の伝え方の違いを理解しています。</span></p>
-        </article>
+    <div class="wrap proof">
+      <div class="tokens">
+        <strong>99,472,100</strong>
+        <span>tokens</span>
       </div>
-      <div class="also glass"><b><span data-l="zh">其他也符合</span><span data-l="en">Also covered</span><span data-l="ja">その他の経験</span></b><span><span data-l="zh">社群經營（世田谷區公所）</span><span data-l="en">Social media (Setagaya City Office)</span><span data-l="ja">SNS 運用（世田谷区役所）</span></span><span><span data-l="zh">地方活動籌辦與執行</span><span data-l="en">Community event planning</span><span data-l="ja">地域イベントの企画・運営</span></span><span><span data-l="zh">競品與市場分析（松江 LEXUS）</span><span data-l="en">Competitor & market research (Lexus)</span><span data-l="ja">競合・市場分析（松江 LEXUS）</span></span></div>
+      <figure class="photo glass"><img src="images/team.jpg" alt="" width="1600" height="1200" loading="lazy"></figure>
     </div>
   </section>
 
