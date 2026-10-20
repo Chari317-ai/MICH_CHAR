@@ -228,7 +228,7 @@
   }
   .also b { color: var(--ink); }
   .also > span + span::before { content: "·"; margin-right: 18px; color: var(--accent); }
-  .proof { display: grid; grid-template-columns: 1fr 1.4fr; align-items: center; gap: 48px; }
+  .proof { display: grid; grid-template-columns: 1fr 1.4fr; align-items: center; gap: 48px; margin-top: 24px; }
   .tokens strong { display: block; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
   .tokens span { display: block; margin-top: 12px; font-size: 1.1em; letter-spacing: .3em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; }
   .photo { margin: 0; padding: 10px; border-radius: 24px; }
@@ -387,12 +387,15 @@
   </section>
 
   <section class="slide" id="s-match" data-title="核心條件" data-title-en="Core fit" data-title-ja="重要条件">
-    <div class="wrap proof">
+    <div class="wrap">
+      <span class="tag glass"><span data-l="zh">01 · 核心條件</span><span data-l="en">01 · Core fit</span><span data-l="ja">01 · 重要条件</span></span>
+      <div class="proof">
       <div class="tokens">
         <strong>99,472,100</strong>
         <span>tokens</span>
       </div>
       <figure class="photo glass"><img src="images/team.jpg" alt="" width="1600" height="1200" loading="lazy"></figure>
+      </div>
     </div>
   </section>
 
