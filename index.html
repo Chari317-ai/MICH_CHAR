@@ -230,7 +230,7 @@
   }
   .also b { color: var(--ink); }
   .also > span + span::before { content: "·"; margin-right: 18px; color: var(--accent); }
-  .proof { display: grid; grid-template-columns: 1fr 1.4fr; align-items: center; gap: 48px; margin-top: 24px; }
+  .proof { display: grid; grid-template-columns: minmax(max-content, 1fr) 1.4fr; align-items: center; gap: 48px; margin-top: 24px; }
   .tokens { padding: 48px 40px; border-radius: 24px; text-align: center; }
   .tokens strong { display: block; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
   .tokens span { display: block; margin-top: 12px; font-size: 1.1em; letter-spacing: .3em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; }
