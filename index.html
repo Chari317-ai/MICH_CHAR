@@ -428,7 +428,7 @@
         </div>
         <div class="browser-view">
           <img src="images/kamio_message.jpg" alt="神尾りさ official site, English profile: Message" width="1280" height="800">
-          <iframe data-src="https://kamiorisa.tokyo/en/profile/#prof-detail04" title="kamiorisa.tokyo English profile" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          <iframe data-src="https://kamiorisa.tokyo/en/profile/#prof-detail04" title="kamiorisa.tokyo English profile" referrerpolicy="no-referrer"></iframe>
         </div>
       </figure>
       <p class="caption"><span data-l="zh">世田谷區議員官方網站 · 內容編輯、日翻英在地化</span><span data-l="en">Setagaya City Council member's official site · content editing, Japanese→English localization</span><span data-l="ja">世田谷区議会議員 公式サイト · コンテンツ編集、日英ローカライズ</span></p>
@@ -753,11 +753,18 @@
     }, { root: deck, rootMargin: "-50% 0px -50% 0px" }); // the slide crossing the middle of the screen
     slides.forEach(function (s) { io.observe(s); });
 
-    // Embed the live site only when online; keep the screenshot if it never loads
+    // Embed the live site only when online, and only once its slide is on screen
+    // (loaded off screen, the site's jump to the Message anchor lands in the wrong place).
+    // The screenshot underneath stays visible if the site never loads.
     var frame = document.querySelector(".browser-view iframe");
     if (frame && navigator.onLine) {
       frame.addEventListener("load", function () { frame.classList.add("ready"); });
-      frame.src = frame.dataset.src;
+      var frameIo = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        frame.src = frame.dataset.src;
+        frameIo.disconnect();
+      }, { root: deck, threshold: .6 });
+      frameIo.observe(document.getElementById("s-content"));
     }
 
     // In-page links scroll inside the deck
