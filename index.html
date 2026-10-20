@@ -191,7 +191,9 @@
   .status { display: flex; align-items: center; gap: 8px; font-size: .8em; color: var(--accent-deep); }
   .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #e0b84a; box-shadow: 0 0 6px #e0b84a; }
   .kv { display: flex; justify-content: space-between; font-size: .82em; color: var(--muted); margin-top: 8px; }
-  .kv b { color: var(--ink); font-weight: 600; }
+  .kv { gap: 12px; }
+  .kv > span { white-space: nowrap; }
+  .kv b { color: var(--ink); font-weight: 600; text-align: right; }
 
   .gauge {
     position: absolute; z-index: 2; bottom: 9svh;
