@@ -786,11 +786,11 @@
     // Core fit slide: replay the entrance and count the tokens up each time it comes on screen
     var fit = document.getElementById("s-match");
     var count = fit.querySelector("[data-to]");
-    var target = Number(count.dataset.to), raf = 0;
+    var target = Number(count.dataset.to), raf = 0, done = 0;
     var still = window.matchMedia("(prefers-reduced-motion: reduce)");
     new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        cancelAnimationFrame(raf);
+        cancelAnimationFrame(raf); clearTimeout(done);
         fit.classList.toggle("in", e.isIntersecting);
         if (!e.isIntersecting || still.matches) { count.textContent = target.toLocaleString("en-US"); return; }
         var start = performance.now(), dur = 1800;
@@ -799,6 +799,8 @@
           count.textContent = Math.round(target * ease).toLocaleString("en-US");
           if (t < 1) raf = requestAnimationFrame(tick);
         })(start);
+        // Land on the exact total even if the browser throttles animation frames
+        done = setTimeout(function () { cancelAnimationFrame(raf); count.textContent = target.toLocaleString("en-US"); }, dur + 100);
       });
     }, { root: deck, threshold: .5 }).observe(fit);
 
